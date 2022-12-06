@@ -11,16 +11,17 @@ void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 	handleInput();
 
 	// future values of x and y calculate before moving
-	int tempX = (int) (x - tx);
-	int tempY = (int) (y - ty);
+	// multiplied by 5 to have some distance before it collides, in order to prevent getting stuck 
+	int tempX = (int) (x - (tx * 5));
+	int tempY = (int) (y - (ty * 5));
 
-	collisionRect.x =  tempX;
-	collisionRect.y = tempY;
+	SDL_Rect wallCollisionRect = { tempX, tempY, sprite->getWidth(), sprite->getHeight()};
 
-	if (!(wallCollision(map))) {
-		x -= tx * (float) deltaTime / 6;
-		y -= ty * (float) deltaTime / 6;
+	if (!(wallCollision(map, wallCollisionRect))) {
+		x -= tx * (float)deltaTime / 5;
+		y -= ty * (float)deltaTime / 5;
 	}
+	else return;
 
 	tx *= friction;
 	ty *= friction;

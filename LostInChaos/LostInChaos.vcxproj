@@ -142,6 +142,10 @@
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Tile.h" />
+    <ClInclude Include="include\Timer.h" />
+    <ClInclude Include="include\Trap.h" />
+    <ClInclude Include="include\TrapHUD.h" />
+    <ClInclude Include="include\TrapIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Enemy.cpp" />
@@ -154,6 +158,10 @@
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Tile.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
+    <ClCompile Include="src\Trap.cpp" />
+    <ClCompile Include="src\TrapHUD.cpp" />
+    <ClCompile Include="src\TrapIcon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
