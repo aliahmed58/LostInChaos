@@ -5,6 +5,7 @@
 #include <SDL_mixer.h>
 #include <stdio.h>
 #include "Constants.h"
+#include "Object.h"
 
 class Renderer {
 public:
@@ -17,6 +18,10 @@ public:
 	// calculate delta time
 	void updateDeltaTime();
 	double getDeltaTime();
+
+	// render objects list
+	void renderList(vector<Object*> &list);
+
 
 private:
 	// initialzing SDL
