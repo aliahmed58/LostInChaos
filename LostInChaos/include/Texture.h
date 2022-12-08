@@ -15,7 +15,7 @@ public:
 	void free();
 	
 	// render a texture with angle / flip type
-	void renderCopyEx(SDL_Rect* src, SDL_Rect* dst, SDL_Point* center, double angle = 0, SDL_RendererFlip flipType = SDL_FLIP_NONE);
+	void renderCopyEx(SDL_Rect* src, SDL_Rect* dst, double angle = 0, SDL_RendererFlip flipType = SDL_FLIP_NONE);
 
 	// render a texture as it is
 	void render(SDL_Rect* src, SDL_Rect* dst);

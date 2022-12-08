@@ -18,5 +18,9 @@ void Enemy::render() {
 
 	SDL_Rect src = { 0,0, sprite->getWidth(), sprite->getHeight() };
 	SDL_Rect dst = { (int)x, (int)y, 64, 64 };
+
+	sprite->renderCopyEx(&src, &dst, angle);
+
+	
 	
 }

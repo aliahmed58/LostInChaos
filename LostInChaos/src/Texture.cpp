@@ -54,8 +54,8 @@ bool Texture::loadTexture(std::string file_path) {
 	return texture != nullptr;
 }
 
-void Texture::renderCopyEx(SDL_Rect* src, SDL_Rect* dst, SDL_Point* center, double angle, SDL_RendererFlip flipType) {
-	SDL_RenderCopyEx(renderer, texture, src, dst, angle, center, flipType);
+void Texture::renderCopyEx(SDL_Rect* src, SDL_Rect* dst, double angle, SDL_RendererFlip flipType) {
+	SDL_RenderCopyEx(renderer, texture, src, dst, angle, NULL, flipType);
 }
 
 void Texture::render(SDL_Rect* src, SDL_Rect* dst) {

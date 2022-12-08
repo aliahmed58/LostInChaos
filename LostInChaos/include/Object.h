@@ -18,7 +18,7 @@ public:
 	virtual void move(std::array<Tile*, MAP_LENGTH> &map, double deltaTime) = 0;
 
 	// if object collides with walls 
-	virtual bool wallCollision(std::array<Tile*, MAP_LENGTH> &map, SDL_Rect &rect);
+	virtual bool wallCollision(std::array<Tile*, MAP_LENGTH> &map);
 
 	// kill an object.
 	virtual void kill(double deltaTime);
