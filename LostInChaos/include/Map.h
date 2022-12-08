@@ -19,9 +19,7 @@ private:
 	SDL_Renderer* renderer;
 	std::array<Tile*, MAP_LENGTH> tiles;
 
-	SDL_Rect rects[TOTAL_TILES];
-	Texture* tileset;
-
-	void clipSpriteSheet();
+	Texture* water;
+	Texture* brick;
 	
 };

@@ -4,11 +4,6 @@
 #include "../include/Player.h"
 #include "../include/Renderer.h"
 #include "../include/GlobalVars.h"
-#include "../include/TrapHUD.h"
-#include "../include/Astar.h"
-
-void updateList(vector<Object*>& objects, Map* map, double deltaTime);
-
 
 int main(int argc, char* args[]) {
 
@@ -16,66 +11,33 @@ int main(int argc, char* args[]) {
 	Renderer* system = new Renderer();
 	SDL_Renderer* renderer = system->getRenderer();
 
-	// game objects vector
-	vector<Object*> objects;
-	
-
-	// map pointer 
-	Map* map = new Map(renderer);
-	// player poitner
+	Map* m = new Map(renderer);
 	Player* p = new Player(200, 200, renderer);
-	
-	// trap hud 
-	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects);
-
-	vector<Node*> ns;
-
+	Enemy x(SCREEN_WIDTH / 2 - 32, 0, renderer, GUNNER_PNG, GUNNER_TAG);
 
 	while (!gvars.gameLoop) {
 		// keep updating deltaTime
 		system->updateDeltaTime();
 
-		// handle events like mouse click and keyboard presses
 		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT) {
 				gvars.gameLoop = true;
 			}
-
-			trapHUD->handleTrapsSelection(e);
 		}
-		// set renderer color
-		SDL_SetRenderDrawColor(renderer, BG.r, BG.g, BG.b, BG.a);
-		// clear renderer to draw on screen
+		SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
 		SDL_RenderClear(renderer);
 
-		// render map
-		map->renderMap();
+		m->renderMap();
 
-		// render player
 		p->render();
-		p->move(map->getMap(), system->getDeltaTime());
+		p->move(m->getMap(), system->getDeltaTime());
 
-		system->renderList(objects);
+		x.render();
 
-		updateList(objects, map, system->getDeltaTime());
-
-		// render Traps 
-		trapHUD->renderHUD(e);
-
-
-		// render above entities
 		SDL_RenderPresent(renderer);
 	}
-
-	// if game exits, delete renderer and all other components
 	delete system;
 	return 0;
 }
 
-
-void updateList(vector<Object*>& objects, Map* map, double deltaTime) {
-	for (int i = 0; i < objects.size(); i++) {
-		objects.at(i)->move(map->getMap(), deltaTime);
-	}
-}

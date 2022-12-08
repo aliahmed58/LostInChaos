@@ -4,34 +4,23 @@ Player::Player() {};
 
 Player::Player(float x, float y, SDL_Renderer* renderer) : Object(x, y, renderer, PLAYER_PNG, PLAYER_TAG) {
 	friction = 0.9f;
-	
 }
 
 // move player
 void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 	handleInput();
 
-	astar = Astar(renderer, this);
-	astar.astar(map);
-	
-	for (int i = 0; i < astar.rs.size(); i++) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(renderer, &astar.rs.at(i));
-	}
-	
-
 	// future values of x and y calculate before moving
-	// multiplied by 5 to have some distance before it collides, in order to prevent getting stuck 
-	int tempX = (int) (x - (tx * 5));
-	int tempY = (int) (y - (ty * 5));
+	int tempX = (int) (x - tx);
+	int tempY = (int) (y - ty);
 
-	SDL_Rect wallCollisionRect = { tempX, tempY, sprite->getWidth(), sprite->getHeight()};
+	collisionRect.x =  tempX;
+	collisionRect.y = tempY;
 
-	if (!(wallCollision(map, wallCollisionRect))) {
-		x -= tx * (float)deltaTime / 5;
-		y -= ty * (float)deltaTime / 5;
+	if (!(wallCollision(map))) {
+		x -= tx * (float) deltaTime / 6;
+		y -= ty * (float) deltaTime / 6;
 	}
-	else return;
 
 	tx *= friction;
 	ty *= friction;

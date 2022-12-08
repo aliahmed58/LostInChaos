@@ -132,7 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Astar.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Enemy.h" />
     <ClInclude Include="include\GlobalVars.h" />
@@ -143,13 +142,8 @@
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Tile.h" />
-    <ClInclude Include="include\Timer.h" />
-    <ClInclude Include="include\Trap.h" />
-    <ClInclude Include="include\TrapHUD.h" />
-    <ClInclude Include="include\TrapIcon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Astar.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\GlobalVars.cpp" />
     <ClCompile Include="src\helper.cpp" />
@@ -158,13 +152,8 @@
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Tile.cpp" />
-    <ClCompile Include="src\Timer.cpp" />
-    <ClCompile Include="src\Trap.cpp" />
-    <ClCompile Include="src\TrapHUD.cpp" />
-    <ClCompile Include="src\TrapIcon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

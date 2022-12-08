@@ -13,7 +13,7 @@ Object::Object(float x, float y, SDL_Renderer* gRenderer, std::string file_name,
 	// all objects by default have health 1
 	this->health = 1;
 	// by default collision rect will be the same as the complete sprite size
-	this->collisionRect = { (int)x , (int)y , sprite->getWidth(), sprite->getHeight()};
+	this->collisionRect = { (int)x, (int)y, sprite->getWidth(), sprite->getHeight() };
 	// object set to alive on creation
 	alive = true;
 	// angle = 0 pointing upwards by default
@@ -43,16 +43,15 @@ void Object::render() {
 }
 
 // check if object touches wall
-bool Object::wallCollision(std::array<Tile*, MAP_LENGTH>& map, SDL_Rect &rect) {
+bool Object::wallCollision(std::array<Tile*, MAP_LENGTH>& map) {
 	Tile* tile;
 	SDL_Rect tileRect;
 	for (int i = 0; i < map.size(); i++) {
 		tile = map.at(i);
 		if (tile != nullptr) {
 			tileRect = tile->getRect();
-			int type = tile->getTileType();
-			if (type == SWALL_R || type == SWALL_B || type == SWALL_T || type == SWALL_L || type == MID_WALL) {
-				if (checkCollision(tileRect, rect, 0)) {
+			if (tile->getTileType() == 0) {
+				if (checkCollision(tileRect, collisionRect, 0)) {
 					return true;
 				}
 			}
