@@ -10,6 +10,14 @@ Player::Player(float x, float y, SDL_Renderer* renderer) : Object(x, y, renderer
 void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 	handleInput();
 
+	Astar astar(renderer, this);
+	astar.astar(map);
+
+	for (int i = 0; i < astar.rs.size(); i++) {
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderFillRect(renderer, &astar.rs.at(i));
+	}
+
 	// future values of x and y calculate before moving
 	// multiplied by 5 to have some distance before it collides, in order to prevent getting stuck 
 	int tempX = (int) (x - (tx * 5));
