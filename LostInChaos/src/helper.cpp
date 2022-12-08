@@ -32,3 +32,21 @@ double calcAngle(double diff_x, double diff_y) {
 	angle += 90;
 	return angle;
 }
+
+bool checkMouseClick(SDL_Rect& a, SDL_Event& e) {
+	// get x and y pos of mouse hover / click
+	int x = e.button.x;
+	int y = e.button.y;
+
+	return (
+		x >= a.x && x <= (a.x + a.w)
+		&& y >= a.y && y <= (a.y + a.h)
+		);
+}
+
+bool checkMouseHover(SDL_Rect& a, int x, int y) {
+	return (
+		x >= a.x && x <= (a.x + a.w)
+		&& y >= a.y && y <= (a.y + a.h)
+		);
+}

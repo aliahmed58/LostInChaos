@@ -28,6 +28,13 @@ double Renderer::getDeltaTime() {
 	return deltaTime;
 }
 
+void Renderer::renderList(vector<Object*> &list) {
+	for (int i = 0; i < list.size(); i++) {
+		list.at(i)->render();
+	}
+}
+
+
 void Renderer::close() {
 	SDL_DestroyWindow(window);
 	window = nullptr;
