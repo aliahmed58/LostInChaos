@@ -22,7 +22,7 @@ const string BASE = "./src/res/";
 // MAP TILE DIMENSIONS
 const int TILE_WIDTH = 32;
 const int TILE_HEIGHT = 32;
-const int MAP_LENGTH = (SCREEN_WIDTH / TILE_WIDTH) * (704 / TILE_HEIGHT);
+const int MAP_LENGTH = ((SCREEN_WIDTH - 64) / TILE_WIDTH) * (SCREEN_HEIGHT / TILE_HEIGHT);
 
 const int TOTAL_TILES = 15;
 // tile types
@@ -54,6 +54,9 @@ const int CBL_WALL = 44;
 const int CTR_WALL = 45;
 // top left | rotate 180 of bottom right 
 const int CTL_WALL = 46;
+
+// mid wall
+const int MID_WALL = 10;
 
 
 // MAP PATH

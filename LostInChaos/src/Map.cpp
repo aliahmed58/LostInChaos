@@ -25,7 +25,8 @@ void Map::readMap() {
 	int x = 128, y = 0;
 	// read map file 
 	int i = 0;
-	for (int i = 0; i < tiles.size(); i++) {
+
+	while (!mapFile.eof()) {
 		// determines tile type 
 		int tileType = -1;
 
@@ -38,8 +39,9 @@ void Map::readMap() {
 		}
 		// read tiles with valid tile types
 		if (tileType >= 0) {
-			tiles[i] = new Tile(x, y, tileType);
+			tiles[38 * (y / 32) + ((x - 128) / 32)] = new Tile(x, y, tileType);
 		}
+
 		// increase x values 
 		x += TILE_WIDTH;
 		// if x value is maxed out, go to next row
@@ -101,6 +103,9 @@ void Map::renderMap() {
 					break;
 				case WALL_L:
 					tileset->renderCopyEx(&rects[WALL_R], &dst, nullptr, 0, SDL_FLIP_HORIZONTAL);
+					break;
+				case MID_WALL:
+					tileset->render(&rects[MID_WALL], &dst);
 					break;
 			}
 		}
