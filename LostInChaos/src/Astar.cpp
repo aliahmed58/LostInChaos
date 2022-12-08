@@ -43,13 +43,17 @@ void Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 	openList.insert(*s);
 	bool closedList[MAP_LENGTH];
 
-	Node* nodes[MAP_LENGTH];
+	Node* nodes[39][24];
 
 	for (int i = 0; i < MAP_LENGTH; i++) {
 		closedList[i] = false;
-		nodes[i] = new Node();
-		nodes[i]->parentX = -1;
-		nodes[i]->parentY = -1;
+	}
+
+	for (int i = 0; i < 39; i++) {
+		for (int j = 0; j < 24; j++) {
+			nodes[i][j] = new Node();
+			nodes[i][j]->parent = {};
+		}
 	}
 
 	while (!openList.empty()) {
@@ -91,18 +95,31 @@ void Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 
 				s.total_cost = s.g_cost + s.h_cost;
 
-				s.parentX = q.x / 32;
-				s.parentY = q.y / 32;
 
 				// if already in closed list skip
 				if (closedList[38 * (s.y / 32) + (s.x / 32)] == true) {
 					continue;
 				}
 
-				openList.insert(s);
+				set<Node>::iterator it = std::find_if(openList.begin(), openList.end(), s);
 
-				nodes[38 * (s.y / 32) + (s.x / 32)]->parentX = q.x / 32;
-				nodes[38 * (s.y / 32) + (s.x / 32)]->parentY = q.y / 32;
+				if (it != openList.end()) {
+
+					Node p = *it;
+
+					if (s.g_cost < p.g_cost) {
+
+						nodes[s.x / 32][s.y / 32]->parent = { q.x / 32, q.y / 32 };
+					}
+					else {
+						continue;
+					}
+				}
+				else {
+					openList.insert(s);
+
+					nodes[s.x / 32][s.y / 32]->parent = {q.x / 32, q.y / 32};
+				}
 
 			}
 		}
@@ -115,18 +132,26 @@ void Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 
 	}
 
-	for (int i = 0; i < MAP_LENGTH; i++) {
-		Node* z = nodes[i];
-		int parentX = z->parentX;
-		int parentY = z->parentY;
+	int pX = g.x / 32;
+	int pY = g.y / 32;
 
+	while (!(nodes[pX][pY]->parent.x == (pX * 32) && nodes[pX][pY]->parent.y == (pY * 32))) {
 
-		SDL_Rect r = { parentX * 32, parentY * 32, 32, 32 };
+		SDL_Rect r = { pX * 32, pY * 32, 32, 32 };
 		rs.insert(rs.begin(), r);
+		
+		int tempX = nodes[pX][pY]->parent.x;
+		int tempY = nodes[pX][pY]->parent.y;
+
+		pX = tempX;
+		pY = tempY;
+
 	}
 
-	for (int i = 0; i < MAP_LENGTH; i++) {
-		delete nodes[i];
+	for (int i = 0; i < 39; i++) {
+		for (int j = 0; j < 24; j++) {
+			delete nodes[i][j];
+		}
 	}
 
 	delete s;
@@ -143,13 +168,13 @@ void Astar::createrect() {
 void Astar::test() {
 	Node z(1, 2);
 	Node p(1, 2);
+	p.total_cost = 10;
+	p.total_cost = 0;
 	set<Node> l;
 	l.insert(z);
 
-	set<Node>::iterator m = std::find_if(l.begin(), l.end(), p);
-	Node k = *m;
-
-	printf("kx: %d\n", z.x);
+	const bool is_in = std::find_if(l.begin(), l.end(), p) != l.end();
+	if (is_in) printf("yeah");
 }
 
 std::array<Node*, 8> Astar::generate_successors(Node* n) {

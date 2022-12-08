@@ -51,7 +51,7 @@ bool Object::wallCollision(std::array<Tile*, MAP_LENGTH>& map, SDL_Rect &rect) {
 		if (tile != nullptr) {
 			tileRect = tile->getRect();
 			int type = tile->getTileType();
-			if (type == SWALL_R || type == SWALL_B || type == SWALL_T || type == SWALL_L) {
+			if (type == SWALL_R || type == SWALL_B || type == SWALL_T || type == SWALL_L || type == MID_WALL) {
 				if (checkCollision(tileRect, rect, 0)) {
 					return true;
 				}

@@ -12,18 +12,16 @@
 struct Node {
 	int x;
 	int y;
-	int parentX;
-	int parentY;
-	double g_cost;
-	double h_cost;
-	double total_cost;
+	SDL_Point parent;
+	int g_cost;
+	int h_cost;
+	int total_cost;
 	bool diagonal;
 
 	Node() {};
 
 	Node(int x, int y) {
-		parentX = -1;
-		parentY = -1;
+		parent = {0, 0};
 		g_cost = h_cost = total_cost = 0;
 		this->x = x;
 		this->y = y;
@@ -33,7 +31,7 @@ struct Node {
 	bool operator< (const Node& other) const {
 		return total_cost < other.total_cost;
 	}
-
+	
 	bool operator() (const Node& other) const {
 		return x == other.x && y == other.y;
 	}
@@ -41,14 +39,14 @@ struct Node {
 	bool operator ==(const Node& other) const {
 		return other.x == x && other.y == y;
 	}
-};
+ };
 
 
 class Astar {
 public:
 	Astar();
 
-	Astar(SDL_Renderer* renderer, Object* target);
+	Astar(SDL_Renderer* renderer,Object* target);
 
 	// calculate starting position of a block given x value
 	int calc_x(int x);
@@ -78,7 +76,7 @@ private:
 	Object* target;
 
 	// generate successors for a given node
-	std::array<Node*, 8> generate_successors(Node* n);
+	std::array<Node*, 8> generate_successors(Node *n);
 
 	// trace path from current
 	void tracePath(Node* current);
