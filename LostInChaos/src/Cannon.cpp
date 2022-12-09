@@ -30,7 +30,7 @@ void Cannon::fire(vector<Object*>& list, vector<Object*>& bullets, double deltaT
 
 			Object* lol = new Player(500, 500, renderer);
 			// create a cannon bullet object
-			Object* cBullet = new CannonBullet(bX, bY, lol, renderer);
+			Object* cBullet = new CannonBullet((float) bX, (float) bY, lol, renderer);
 
 			// insert into bullets vector
 			bullets.insert(bullets.begin(), cBullet);

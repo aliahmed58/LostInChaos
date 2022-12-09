@@ -30,7 +30,7 @@ void MissileLauncher::fire(vector<Object*>& list, vector<Object*>& bullets, doub
 
 			Object* lol = new Player(500, 500, renderer);
 			// create a cannon bullet object
-			Object* cBullet = new Missile(bX, bY, lol, renderer);
+			Object* cBullet = new Missile((float) bX, (float) bY, lol, renderer);
 
 			// insert into bullets vector
 			bullets.insert(bullets.begin(), cBullet);

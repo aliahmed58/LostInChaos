@@ -30,7 +30,7 @@ void MachineGun::fire(vector<Object*>& list, vector<Object*>& bullets, double de
 
 			Object* lol = new Player(500, 500, renderer);
 			// create a cannon bullet object
-			Object* cBullet = new MGBullet(bX, bY, lol, renderer);
+			Object* cBullet = new MGBullet((float) bX, (float) bY, lol, renderer);
 
 			// insert into bullets vector
 			bullets.insert(bullets.begin(), cBullet);
