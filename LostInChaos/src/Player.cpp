@@ -10,12 +10,22 @@ Player::Player(float x, float y, SDL_Renderer* renderer) : Object(x, y, renderer
 void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 	handleInput();
 
-	Astar astar(renderer, this);
-	astar.astar(map);
+	Astar astar(this, nullptr);
 
-	for (int i = 0; i < astar.rs.size(); i++) {
+	stack<SDL_Point> path = astar.astar(map);
+
+	while (path.size() != 0) {
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(renderer, &astar.rs.at(i));
+		int xP = path.top().x;
+		int xY = path.top().y;
+		SDL_Rect r = { xP, xY, 32, 32 };
+		SDL_RenderFillRect(renderer, &r);
+
+		if (xP == (int) x && xY == (int) y) {
+			printf("Somethin : \n");
+		}
+
+		path.pop();
 	}
 
 	// future values of x and y calculate before moving

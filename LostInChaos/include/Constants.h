@@ -22,7 +22,10 @@ const string BASE = "./src/res/";
 // MAP TILE DIMENSIONS
 const int TILE_WIDTH = 32;
 const int TILE_HEIGHT = 32;
-const int MAP_LENGTH = ((SCREEN_WIDTH - 64) / TILE_WIDTH) * (SCREEN_HEIGHT / TILE_HEIGHT);
+const int MAP_HEIGHT = SCREEN_HEIGHT / TILE_HEIGHT;
+const int MAP_LEFT_OFFSET = 128;
+const int MAP_WIDTH = (SCREEN_WIDTH - MAP_LEFT_OFFSET) / TILE_WIDTH;
+const int MAP_LENGTH = MAP_WIDTH * MAP_HEIGHT;
 
 const int TOTAL_TILES = 15;
 // tile types
@@ -81,6 +84,11 @@ const string CANNON_ICON_PNG = BASE + "/turrets/cannonIcon.png";
 const string MISSILE_LAUNCHER_ICON_PNG = BASE + "/turrets/missileLauncherIcon.png";
 const string MACHINE_GUN_ICON_PNG = BASE + "/turrets/machineGunIcon.png";
 
+// BULLETS
+const string MG_BULLET_PNG = BASE + "/turrets/mgBullet.png";
+const string CANNON_BULLET_PNG = BASE + "/turrets/cannonBullet.png";
+const string MISSILE_BULLET_PNG = BASE + "/turrets/missileBullet.png";
+
 // AUDIO AND SFX
 
 // UI RESOURCES
@@ -96,9 +104,9 @@ const int NUM_OF_TRAPS = 3;
 
 // ENUM FOR TYPE OF OBJECTS
 enum TAG {
-	PLAYER_TAG, GUNNER_TAG
+	PLAYER_TAG, GUNNER_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG, MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN
 };
 
-enum TRAPS {
-	MISSILE_LAUNCHER, CANNON, MACHINE_GUN
+enum TRAPS_INDEX {
+	ML, CAN, MG
 };

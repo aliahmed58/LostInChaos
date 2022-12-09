@@ -1,184 +1,210 @@
 #include "../include/Astar.h"
 
 Astar::Astar() {
-
+	// null values on default ctor
+	start = target = nullptr;
 }
 
-Astar::Astar(SDL_Renderer* renderer, Object* target) {
-	this->renderer = renderer;
+Astar::Astar(Object* target, Object* start) {
+	// set target and start object for searching
 	this->target = target;
+	this->start = start;
 }
 
+stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 
-int Astar::calc_x(int x) {
-	// calculate remainders
-	double x_remainder = (double)x / TILE_WIDTH;
+	// open list that stores possible nodes that should be explored
+	// 8 valid neighbours of the current node
+	set<Node> openList;
 
-	// multiplying decimal remainder value with BLOCK SIZE 
-	//gives amount of x, y to be subtracted to reach block start
-	x_remainder = (x_remainder - (int)x_remainder) * TILE_WIDTH;
+	// starting node 
+	Node* s = new Node(calc_x(200), calc_y(200));
+	// goal node
+	Node g(calc_x((int) target->getX()), calc_y((int) target->getY()));
 
-	// subtract from mouse click values
-	int x_val = x - (int)x_remainder;
-
-
-	return x_val;
-}
-
-int Astar::calc_y(int y) {
-	double y_remainder = double(y) / TILE_WIDTH;
-
-	y_remainder = (y_remainder - (int)y_remainder) * TILE_WIDTH;
-
-	int y_val = y - (int)y_remainder;
-
-	return y_val;
-}
-
-void Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
-
-	Node* s = new Node(calc_x(256), calc_y(64));
-	Node g(calc_x(target->getX()), calc_y(target->getY()));
-
+	// adding start node to open list to begin our search
 	openList.insert(*s);
+
+	// closed list to keep track of nodes we dont have to look at again
 	bool closedList[MAP_LENGTH];
 
-	Node* nodes[39][24];
+	// keeping track of nodes with their parents in order to trace back the path 
+	// after goal is found
+	Node* nodes[MAP_LENGTH];
 
+	// initialize closed list and nodes with default values
 	for (int i = 0; i < MAP_LENGTH; i++) {
 		closedList[i] = false;
+		nodes[i] = new Node();
+		nodes[i]->parent = {};
 	}
 
-	for (int i = 0; i < 39; i++) {
-		for (int j = 0; j < 24; j++) {
-			nodes[i][j] = new Node();
-			nodes[i][j]->parent = {};
-		}
-	}
-
+	// keep searching while the open list is not empty
+	// i.e. there are no nodes left to search
+	// since the map will have no closed areas, therer will always be a path existing
+	// from any given point to another.
 	while (!openList.empty()) {
 
+		// get the node with the lowest total_cost cost since set stores 
+		// nodes in order. The order criteria is set to be the total_cost
 		Node q = *openList.begin();
 
+		// remove that node from open list since it's explored
 		openList.erase(q);
 
+		// if the selected node is the same as goal node.
+		// goal is found hence stop searching
 		if (q == g) {
 			break;
 		}
+
+		// else generate 8 successors of the current selected node
 		std::array<Node*, 8> successors = generate_successors(&q);
 
+		// for each of the 8 successors
 		for (int i = 0; i < successors.size(); i++) {
+
+			// get the successor
 			Node s = *successors.at(i);
 
-			bool valid = true;
-
-			Tile* t = map.at(38 * (s.y / 32) + ((s.x - 128) / 32));
+			// access the same tile as successor on map and check to see
+			// if it's not a wall. If it's a wall then it's an invalid successor
+			// skip this succcessor since it cant be in the path
+			Tile* t = map.at(MAP_WIDTH * (s.y / TILE_HEIGHT) + ((s.x - MAP_LEFT_OFFSET) / TILE_WIDTH));
+			// checks if the tile is not null
 			if (t != nullptr) {
-				if (t->getTileType() == 10) {
-					valid = false;
-				}
-			}
-
-			if (valid) {
-				if (s.diagonal) {
-					s.g_cost = q.g_cost + 14;
-				}
-				else {
-					s.g_cost = q.g_cost + 10;
-				}
-
-				int dx = abs(g.x - s.x);
-				int dy = abs(g.y - s.y);
-
-				s.h_cost = 32 * (dx + dy) + (16) * min(dx, dy);
-				//s.h_cost = dx + dy;
-
-				s.total_cost = s.g_cost + s.h_cost;
-
-
-				// if already in closed list skip
-				if (closedList[38 * (s.y / 32) + (s.x / 32)] == true) {
+				if (t->getTileType() == MID_WALL) {
 					continue;
 				}
-
-				set<Node>::iterator it = std::find_if(openList.begin(), openList.end(), s);
-
-				if (it != openList.end()) {
-
-					Node p = *it;
-
-					if (s.g_cost < p.g_cost) {
-
-						nodes[s.x / 32][s.y / 32]->parent = { q.x / 32, q.y / 32 };
-					}
-					else {
-						continue;
-					}
-				}
-				else {
-					openList.insert(s);
-
-					nodes[s.x / 32][s.y / 32]->parent = {q.x / 32, q.y / 32};
-				}
-
 			}
+
+			// The actual searching algorithm that calculates cost
+			// and adds to list based
+
+			/*
+			g_cost is the cost to move on to the succesor from the starting point
+			accumulates as we move on in order to select a better path
+
+			h_cost is the hueristic value is the distance calculated from selected node to the 
+			goal point using some formula 
+
+			total_cost is the sum of g_cost and h_cost
+			*/
+
+			// assigning g_cost to nodes, if a node is diagonal it will have more 
+			// g_cost than a orthogonal node (non diagonal).
+
+			// the g_cost is calculated by adding the g_cost of the previously selected node
+			// and adding a number based on diagonal or not
+			if (s.diagonal) {
+				s.g_cost = q.g_cost + 14;
+			}
+			else {
+				s.g_cost = q.g_cost + 10;
+			}
+
+			// To calculate the h_cost (hueristic cost) first 
+			// absolute difference of x and y position is calculated betewen goal 
+			// and successor 
+
+			int dx = abs(g.x - s.x);
+			int dy = abs(g.y - s.y);
+
+			// Diagonal distance:  the maximum of absolute values of differences 
+			// in the goal’s x and y coordinates and the current cell’s x and y coordinates respectively
+			s.h_cost = TILE_WIDTH * (dx + dy) + (16) * min(dx, dy);
+
+			// set total cost by adding g and h
+			s.total_cost = s.g_cost + s.h_cost;
+
+			// if already in closed list skip this succecssor
+			if (closedList[MAP_WIDTH * (s.y / TILE_HEIGHT) + (s.x / TILE_WIDTH)] == true) {
+				continue;
+			}
+
+			// find the node with same x, y in open list
+			set<Node>::iterator it = std::find_if(openList.begin(), openList.end(), s);
+
+			// if node in open list exist
+			if (it != openList.end()) {
+
+				// fetch that node from iterator
+				Node p = *it;
+
+				// if the successor has a better G cost than currently existing node
+				if (s.g_cost < p.g_cost) {
+
+					// set the parent of that node as the current selected node, so as to
+					// select a better path
+					nodes[MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT)]->parent = { q.x / TILE_WIDTH, q.y / TILE_HEIGHT };
+				}
+				// if not, do nothing and go to next successor - or end for loop
+				else {
+					continue;
+				}
+			}
+			// if node does not exist in open list
+			else {
+				// insert that node in open list
+				openList.insert(s);
+
+				// set it's parent to selected node so path can be traced
+				nodes[MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT)]->parent = { q.x / TILE_WIDTH, q.y / TILE_HEIGHT };
+			}
+
 		}
-		// clean successors
+		// after dynamically allocated successors have been used,
+		// deallocate them to clear up memory
 		for (int i = 0; i < successors.size(); i++) {
 			delete successors.at(i);
 		}
 
-		closedList[38 * (q.y / 32) + (q.x / 32)] = true;
-
+		// add the selected node to closed list
+		closedList[MAP_WIDTH * (q.y / TILE_HEIGHT) + (q.x / TILE_WIDTH)] = true;
 	}
 
-	int pX = g.x / 32;
-	int pY = g.y / 32;
+	// after A* is completed, and a path is found
+	// get the goals x and y values for path tracing
+	int pX = g.x / TILE_WIDTH;
+	int pY = g.y / TILE_HEIGHT;
 
-	while (!(nodes[pX][pY]->parent.x == (pX * 32) && nodes[pX][pY]->parent.y == (pY * 32))) {
+	// create a stack to store the path in it's correct order
+	stack<SDL_Point> path;
 
-		SDL_Rect r = { pX * 32, pY * 32, 32, 32 };
-		rs.insert(rs.begin(), r);
-		
-		int tempX = nodes[pX][pY]->parent.x;
-		int tempY = nodes[pX][pY]->parent.y;
+	// keep creating a path while the parent x and y values are not equal to the goal 
+	// node i.e. goal node is reached
+	while (!(nodes[MAP_WIDTH * (pY)+pX]->parent.x == (pX * TILE_WIDTH)
+		&& nodes[MAP_WIDTH * (pY)+pX]->parent.y == (pY * TILE_HEIGHT))) {
 
+		// create an sdl point of the coordinates on actual SDL Screen 
+		SDL_Point r = { pX * TILE_WIDTH, pY * TILE_HEIGHT };
+		// push that point on the stack
+		path.push(r);
+
+		// fetch current node's parent x and y values
+		int tempX = nodes[MAP_WIDTH * (pY)+pX]->parent.x;
+		int tempY = nodes[MAP_WIDTH * (pY)+pX]->parent.y;
+
+		// update the loop values to next parent
 		pX = tempX;
 		pY = tempY;
-
 	}
 
-	for (int i = 0; i < 39; i++) {
-		for (int j = 0; j < 24; j++) {
-			delete nodes[i][j];
-		}
+	// clean up nodes after path has been traced
+	for (int i = 0; i < MAP_LENGTH; i++) {
+		delete nodes[i];
 	}
 
+	// delete start node
 	delete s;
-}
 
-
-void Astar::tracePath(Node* current) {
-}
-
-void Astar::createrect() {
-
-}
-
-void Astar::test() {
-	Node z(1, 2);
-	Node p(1, 2);
-	p.total_cost = 10;
-	p.total_cost = 0;
-	set<Node> l;
-	l.insert(z);
-
-	const bool is_in = std::find_if(l.begin(), l.end(), p) != l.end();
-	if (is_in) printf("yeah");
+	// return stack as a path
+	return path;
 }
 
 std::array<Node*, 8> Astar::generate_successors(Node* n) {
 
+	// array to store successors genearted given a Node* n
 	std::array<Node*, 8> nodes;
 
 	// TOP
@@ -204,6 +230,33 @@ std::array<Node*, 8> Astar::generate_successors(Node* n) {
 		nodes[i]->diagonal = true;
 	}
 
+	// return nodes array 
 	return nodes;
 
+}
+
+int Astar::calc_x(int x) {
+	// calculate remainders
+	double x_remainder = (double)x / TILE_WIDTH;
+
+	// multiplying decimal remainder value with BLOCK SIZE 
+	//gives amount of x, y to be subtracted to reach block start
+	x_remainder = (x_remainder - (int)x_remainder) * TILE_WIDTH;
+
+	// subtract from mouse click values
+	int x_val = x - (int)x_remainder;
+
+	// return the value 
+	return x_val;
+}
+
+// same procedure followed as calculating the x coordinate
+int Astar::calc_y(int y) {
+	double y_remainder = double(y) / TILE_WIDTH;
+
+	y_remainder = (y_remainder - (int)y_remainder) * TILE_WIDTH;
+
+	int y_val = y - (int)y_remainder;
+
+	return y_val;
 }

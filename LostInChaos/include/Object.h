@@ -23,6 +23,9 @@ public:
 	// kill an object.
 	virtual void kill(double deltaTime);
 
+	// firing ability of an object
+	virtual void fire(vector<Object*>& list, vector<Object*>& bullets, double deltaTime);
+
 	// translate object to x and y offsets.
 	void translate(float x_val, float y_val);
 

@@ -133,11 +133,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Astar.h" />
+    <ClInclude Include="include\Bullet.h" />
+    <ClInclude Include="include\Cannon.h" />
+    <ClInclude Include="include\CannonBullet.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Enemy.h" />
     <ClInclude Include="include\GlobalVars.h" />
     <ClInclude Include="include\helper.h" />
+    <ClInclude Include="include\MachineGun.h" />
     <ClInclude Include="include\Map.h" />
+    <ClInclude Include="include\MGBullet.h" />
+    <ClInclude Include="include\Missile.h" />
+    <ClInclude Include="include\MissileLauncher.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Renderer.h" />
@@ -150,11 +157,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Astar.cpp" />
+    <ClCompile Include="src\Bullet.cpp" />
+    <ClCompile Include="src\Cannon.cpp" />
+    <ClCompile Include="src\CannonBullet.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\GlobalVars.cpp" />
     <ClCompile Include="src\helper.cpp" />
+    <ClCompile Include="src\MachineGun.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\MGBullet.cpp" />
+    <ClCompile Include="src\Missile.cpp" />
+    <ClCompile Include="src\MissileLauncher.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Renderer.cpp" />

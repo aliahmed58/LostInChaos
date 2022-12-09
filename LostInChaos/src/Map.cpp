@@ -22,7 +22,7 @@ Map::~Map() {
 void Map::readMap() {
 	std::ifstream mapFile(MAP_FILE);
 	// starting initials of map 
-	int x = 128, y = 0;
+	int x = MAP_LEFT_OFFSET, y = 0;
 	// read map file 
 	int i = 0;
 
@@ -39,14 +39,14 @@ void Map::readMap() {
 		}
 		// read tiles with valid tile types
 		if (tileType >= 0) {
-			tiles[38 * (y / 32) + ((x - 128) / 32)] = new Tile(x, y, tileType);
+			tiles[MAP_WIDTH * (y / TILE_HEIGHT) + ((x - MAP_LEFT_OFFSET) / TILE_WIDTH)] = new Tile(x, y, tileType);
 		}
 
 		// increase x values 
 		x += TILE_WIDTH;
 		// if x value is maxed out, go to next row
 		if (x >= SCREEN_WIDTH) {
-			x = 128;
+			x = MAP_LEFT_OFFSET;
 			y += TILE_HEIGHT;
 		}
 	}

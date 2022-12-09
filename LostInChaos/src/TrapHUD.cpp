@@ -15,9 +15,9 @@ TrapHUD::TrapHUD(SDL_Renderer* renderer, std::array<Tile*, MAP_LENGTH>* map, vec
 	this->objects = objects;
 	this->renderer = renderer;
 
-	icons[MISSILE_LAUNCHER] = new TrapIcon(32, startPosY, MISSILE_LAUNCHER_ICON_PNG, MISSILE_LAUNCHER, renderer, 30);
-	icons[CANNON] = new TrapIcon(32, startPosY + 112, CANNON_ICON_PNG, CANNON, renderer, 5);
-	icons[MACHINE_GUN] = new TrapIcon(32, startPosY + 224, MACHINE_GUN_ICON_PNG, MACHINE_GUN, renderer, 5);
+	icons[ML] = new TrapIcon(32, startPosY, MISSILE_LAUNCHER_ICON_PNG, ML, renderer, 30);
+	icons[CAN] = new TrapIcon(32, startPosY + 112, CANNON_ICON_PNG, CAN, renderer, 5);
+	icons[MG] = new TrapIcon(32, startPosY + 224, MACHINE_GUN_ICON_PNG, MG, renderer, 5);
 
 	selectedTrap = -1;
 }
@@ -68,19 +68,19 @@ void TrapHUD::handleTrapsSelection(SDL_Event& e) {
 		// if no trap is selected look for selection
 		if (selectedTrap == -1) {
 			// check for trap selection based on id
-			if (checkMouseClick(icons[MISSILE_LAUNCHER]->getBoundaryRect(), e)) {
-				if (!icons[MISSILE_LAUNCHER]->isPlaced()) {
-					selectedTrap = MISSILE_LAUNCHER;
+			if (checkMouseClick(icons[ML]->getBoundaryRect(), e)) {
+				if (!icons[ML]->isPlaced()) {
+					selectedTrap = ML;
 				}
 			}
-			else if (checkMouseClick(icons[CANNON]->getBoundaryRect(), e)) {
-				if (!icons[CANNON]->isPlaced()) {
-					selectedTrap = CANNON;
+			else if (checkMouseClick(icons[CAN]->getBoundaryRect(), e)) {
+				if (!icons[CAN]->isPlaced()) {
+					selectedTrap = CAN;
 				}
 			}
-			else if (checkMouseClick(icons[MACHINE_GUN]->getBoundaryRect(), e)) {
-				if (!icons[MACHINE_GUN]->isPlaced()) {
-					selectedTrap = MACHINE_GUN;
+			else if (checkMouseClick(icons[MG]->getBoundaryRect(), e)) {
+				if (!icons[MG]->isPlaced()) {
+					selectedTrap = MG;
 				}
 			}
 		}
@@ -106,14 +106,14 @@ void TrapHUD::placeTrap(SDL_Event& e) {
 
 	Object* trap = nullptr;
 
-	if (selectedTrap == CANNON) {
-		trap = new Trap((float)x, (float)y, renderer, CANNON_PNG, CANNON);
+	if (selectedTrap == CAN) {
+		trap = new Cannon((float)x, (float)y, renderer);
 	}
-	else if (selectedTrap == MISSILE_LAUNCHER) {
-		trap = new Trap((float)x, (float)y, renderer, MISSILE_LAUNCHER_PNG, MISSILE_LAUNCHER);
+	else if (selectedTrap == ML) {
+		trap = new MissileLauncher((float)x, (float)y, renderer);
 	}
-	else if (selectedTrap == MACHINE_GUN) {
-		trap = new Trap((float)x, (float)y, renderer, MACHINE_GUN_PNG, MACHINE_GUN);
+	else if (selectedTrap == MG) {
+		trap = new MachineGun((float)x, (float)y, renderer);
 	}
 	if (trap != nullptr) {
 		objects->insert(objects->begin(), trap);

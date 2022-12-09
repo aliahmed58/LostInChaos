@@ -71,6 +71,12 @@ void Object::translate(float x_val, float y_val) {
 	ty = y_val;
 }
 
+// virtual function of an object firing 
+// left empty since not all objects will fire
+void Object::fire(vector<Object*>& list, vector<Object*>& bullets, double deltaTime) {
+
+}
+
 int Object::getType() {
 	return type;
 }
@@ -82,3 +88,4 @@ float Object::getX() {
 float Object::getY() {
 	return y;
 }
+

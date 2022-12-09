@@ -1,9 +1,12 @@
 #pragma once
 #include <array>
+
 #include "Object.h"
 #include "TrapIcon.h"
 #include "Constants.h"
-#include "Trap.h"
+#include "Cannon.h"
+#include "MachineGun.h"
+#include "MissileLauncher.h"
 
 class TrapHUD {
 public:

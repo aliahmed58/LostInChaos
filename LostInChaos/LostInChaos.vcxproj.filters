@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Traps">
       <UniqueIdentifier>{bec0521f-2b1f-407e-bffd-c14cc798286a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Bullets">
+      <UniqueIdentifier>{df288eed-97e9-4a6f-b924-026e09ab2a38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bullets">
+      <UniqueIdentifier>{d5fe04ac-f497-4ca3-a95f-1d19c8f77bdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Object.h">
@@ -72,6 +78,27 @@
     <ClInclude Include="include\Astar.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="include\Bullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MGBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Cannon.h">
+      <Filter>Header Files\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CannonBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Missile.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MissileLauncher.h">
+      <Filter>Header Files\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MachineGun.h">
+      <Filter>Header Files\Traps</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Object.cpp">
@@ -118,6 +145,27 @@
     </ClCompile>
     <ClCompile Include="src\Astar.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MGBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cannon.cpp">
+      <Filter>Source Files\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CannonBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Missile.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MissileLauncher.cpp">
+      <Filter>Source Files\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MachineGun.cpp">
+      <Filter>Source Files\Traps</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
