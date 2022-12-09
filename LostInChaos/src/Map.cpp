@@ -22,7 +22,7 @@ Map::~Map() {
 void Map::readMap() {
 	std::ifstream mapFile(MAP_FILE);
 	// starting initials of map 
-	int x = MAP_LEFT_OFFSET, y = 0;
+	int x = 128, y = 0;
 	// read map file 
 	int i = 0;
 
@@ -46,7 +46,7 @@ void Map::readMap() {
 		x += TILE_WIDTH;
 		// if x value is maxed out, go to next row
 		if (x >= SCREEN_WIDTH) {
-			x = MAP_LEFT_OFFSET;
+			x = 128;
 			y += TILE_HEIGHT;
 		}
 	}
@@ -54,6 +54,14 @@ void Map::readMap() {
 }
 
 void Map::renderMap() {
+
+	/// <summary>
+	/// to render the map this goes over the loaded tiles array
+	/// the array has tiles with their types stored
+	/// each type of tile is defined in constants.h which tells where the tile is
+	/// The tilesheet sprite is clipped using animation editor and values are stored in an array
+	/// </summary>
+
 	SDL_Rect dst;
 	int type = -1;
 
@@ -107,6 +115,34 @@ void Map::renderMap() {
 				case MID_WALL:
 					tileset->render(&rects[MID_WALL], &dst);
 					break;
+				case MID_WALL_BOTTOM:
+					tileset->render(&rects[MID_WALL_BOTTOM], &dst);
+					break;	
+				case MID_WALL_TOP:
+					tileset->renderCopyEx(&rects[MID_WALL_BOTTOM], &dst, nullptr, 0, SDL_FLIP_VERTICAL);
+					break;
+				case MID_WALL_VERTICAL:
+					tileset->renderCopyEx(&rects[MID_WALL], &dst, nullptr, -90);
+					break;
+				case MID_WALL_L:
+					tileset->renderCopyEx(&rects[MID_WALL_BOTTOM], &dst, nullptr, 90, SDL_FLIP_HORIZONTAL);
+					break;
+				case MID_WALL_R:
+					tileset->renderCopyEx(&rects[MID_WALL_BOTTOM], &dst, nullptr, -90);
+					break;
+				case CORNER_TL:
+					tileset->render(&rects[CORNER_TL], &dst);
+					break;
+				case CORNER_BL:
+					tileset->renderCopyEx(&rects[CORNER_TL], &dst, nullptr, 0, SDL_FLIP_VERTICAL);
+					break;
+				case CORNER_BR:
+					tileset->renderCopyEx(&rects[CORNER_TL], &dst, nullptr, 90, SDL_FLIP_HORIZONTAL);
+					break;
+				case CORNER_TR:
+					tileset->renderCopyEx(&rects[CORNER_TL], &dst, nullptr, 0, SDL_FLIP_HORIZONTAL);
+					break;
+
 			}
 		}
 	}

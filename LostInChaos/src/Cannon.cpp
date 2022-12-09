@@ -18,11 +18,11 @@ void Cannon::fire(vector<Object*>& list, vector<Object*>& bullets, double deltaT
 			double radAngle = (90 - angle) * (PI / 180);
 
 			// calculate middle values of cannon
-			double originX = x + (double) collisionRect.w / 2;
+			double originX = x + (double) collisionRect.w / 4;
 			double originY = y + (double) collisionRect.h / 2;
 
 			// set a radius for the circle
-			int radius = -20;
+			int radius = -(collisionRect.h);
 
 			// calculate x, y coordinates for the bullet to be fired
 			double bX = originX - radius * cos(radAngle);

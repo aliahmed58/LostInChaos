@@ -18,7 +18,7 @@ void Trap::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
 void Trap::render() {
 	SDL_Rect towerSrc = { 0, 0, tower->getWidth(), tower->getHeight() };
-	SDL_Rect towerDst = { (int)x - (tower->getWidth() / 4), (int) y + tower->getHeight() / 4, tower->getWidth(), tower->getHeight()};
+	SDL_Rect towerDst = { (int)x - (tower->getWidth() / 4), (int) y + tower->getHeight() / 2, tower->getWidth(), tower->getHeight()};
 
 	tower->render(&towerSrc, &towerDst);
 

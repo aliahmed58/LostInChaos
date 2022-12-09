@@ -32,6 +32,16 @@ const int TOTAL_TILES = 15;
 const int PLAIN = 14;
 // shadow tiles
 
+// corners
+const int CORNER_TL = 4;
+// corner top right - horizontal flip of corner_TL
+const int CORNER_TR = 54;
+// corner bottom left - vertical flip of CORNER_TL
+const int CORNER_BL = 55;
+// corner bottom right - horizontal flip - left 90
+const int CORNER_BR = 56;
+
+
 // bottom wall 
 const int WALL_B = 6;
 // top wall | flip of bottom wall 
@@ -60,6 +70,16 @@ const int CTL_WALL = 46;
 
 // mid wall
 const int MID_WALL = 10;
+// mid wall border
+const int MID_WALL_BOTTOM = 9;
+// mid wall top - vertically flipped of mid wall bottom
+const int MID_WALL_TOP = 39;
+// mid wall vertical - 90 degree left rotate 
+const int MID_WALL_VERTICAL = 40;
+// mid wall vertical border left | rotate 90 degree
+const int MID_WALL_L = 99;
+// mid wall vertical border right | rotate -90 degrees 
+const int MID_WALL_R = 100;
 
 
 // MAP PATH
@@ -71,7 +91,7 @@ const string TILESET_PNG = BASE + "tiles/tileset.png";
 
 // sprites
 const string GUNNER_PNG = BASE + "Ranger.png";
-const string PLAYER_PNG = BASE + "Ranger.png";
+const string PLAYER_PNG = BASE + "player.png";
 
 // TRAPS SPRITES
 const string TOWER_PNG = BASE + "/turrets/tower.png";

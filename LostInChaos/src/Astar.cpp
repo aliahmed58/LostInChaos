@@ -18,9 +18,9 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 	set<Node> openList;
 
 	// starting node 
-	Node* s = new Node(calc_x(200), calc_y(200));
+	Node* s = new Node(calc_x(300), calc_y(300));
 	// goal node
-	Node g(calc_x((int) target->getX()), calc_y((int) target->getY()));
+	Node g(calc_x((int)target->getX()), calc_y((int)target->getY()));
 
 	// adding start node to open list to begin our search
 	openList.insert(*s);
@@ -70,11 +70,17 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 			// access the same tile as successor on map and check to see
 			// if it's not a wall. If it's a wall then it's an invalid successor
 			// skip this succcessor since it cant be in the path
-			Tile* t = map.at(MAP_WIDTH * (s.y / TILE_HEIGHT) + ((s.x - MAP_LEFT_OFFSET) / TILE_WIDTH));
-			// checks if the tile is not null
-			if (t != nullptr) {
-				if (t->getTileType() == MID_WALL) {
-					continue;
+
+			int index = MAP_WIDTH * (s.y / TILE_HEIGHT) + ((s.x - MAP_LEFT_OFFSET) / TILE_WIDTH);
+			if (index < map.size()) {
+				Tile* t = map.at(index);
+				// checks if the tile is not null
+				if (t != nullptr) {
+					int type = t->getTileType();
+					if (type == MID_WALL || type == MID_WALL_BOTTOM ||
+						type == MID_WALL_TOP || type == MID_WALL_VERTICAL || type == MID_WALL_L || type == MID_WALL_R) {
+						continue;
+					}
 				}
 			}
 
@@ -85,8 +91,8 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 			g_cost is the cost to move on to the succesor from the starting point
 			accumulates as we move on in order to select a better path
 
-			h_cost is the hueristic value is the distance calculated from selected node to the 
-			goal point using some formula 
+			h_cost is the hueristic value is the distance calculated from selected node to the
+			goal point using some formula
 
 			total_cost is the sum of g_cost and h_cost
 			*/
@@ -125,6 +131,8 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 			// find the node with same x, y in open list
 			set<Node>::iterator it = std::find_if(openList.begin(), openList.end(), s);
 
+			int pindex = MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT);
+
 			// if node in open list exist
 			if (it != openList.end()) {
 
@@ -136,7 +144,9 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 
 					// set the parent of that node as the current selected node, so as to
 					// select a better path
-					nodes[MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT)]->parent = { q.x / TILE_WIDTH, q.y / TILE_HEIGHT };
+					if (pindex < MAP_LENGTH) {
+						nodes[MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT)]->parent = { q.x / TILE_WIDTH, q.y / TILE_HEIGHT };
+					}
 				}
 				// if not, do nothing and go to next successor - or end for loop
 				else {
@@ -145,14 +155,17 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 			}
 			// if node does not exist in open list
 			else {
-				// insert that node in open list
-				openList.insert(s);
+
 
 				// set it's parent to selected node so path can be traced
-				nodes[MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT)]->parent = { q.x / TILE_WIDTH, q.y / TILE_HEIGHT };
+				if (pindex < MAP_LENGTH) {
+					// insert that node in open list
+					openList.insert(s);
+					nodes[MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT)]->parent = { q.x / TILE_WIDTH, q.y / TILE_HEIGHT };
+				}
 			}
-
 		}
+
 		// after dynamically allocated successors have been used,
 		// deallocate them to clear up memory
 		for (int i = 0; i < successors.size(); i++) {

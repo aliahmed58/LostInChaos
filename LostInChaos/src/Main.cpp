@@ -24,7 +24,7 @@ int main(int argc, char* args[]) {
 	// map pointer 
 	Map* map = new Map(renderer);
 	// player poitner
-	Player* p = new Player(200, 200, renderer);
+	Player* p = new Player(250, 200, renderer);
 	// trap hud 
 	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects);
 

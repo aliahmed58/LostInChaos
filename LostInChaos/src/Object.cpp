@@ -18,7 +18,6 @@ Object::Object(float x, float y, SDL_Renderer* gRenderer, std::string file_name,
 	alive = true;
 	// angle = 0 pointing upwards by default
 	angle = 0;
-
 }
 
 // free sprite if object is destroyed.
@@ -51,7 +50,9 @@ bool Object::wallCollision(std::array<Tile*, MAP_LENGTH>& map, SDL_Rect &rect) {
 		if (tile != nullptr) {
 			tileRect = tile->getRect();
 			int type = tile->getTileType();
-			if (type == SWALL_R || type == SWALL_B || type == SWALL_T || type == SWALL_L || type == MID_WALL) {
+			if (type == SWALL_R || type == SWALL_B || type == SWALL_T || 
+				type == SWALL_L || type == MID_WALL || type == MID_WALL_TOP || type == MID_WALL_BOTTOM
+				|| type == MID_WALL_VERTICAL || type == MID_WALL_R || type == MID_WALL_L) {
 				if (checkCollision(tileRect, rect, 0)) {
 					return true;
 				}
