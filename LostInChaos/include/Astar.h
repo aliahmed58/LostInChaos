@@ -86,6 +86,6 @@ private:
 	Object* target;
 
 	// generate successors for a given node
-	std::array<Node*, 8> generate_successors(Node *n);
+	std::array<Node*, 8> generate_successors(Node* n);
 };
 

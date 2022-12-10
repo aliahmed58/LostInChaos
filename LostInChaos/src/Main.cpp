@@ -5,6 +5,8 @@
 #include "../include/Renderer.h"
 #include "../include/GlobalVars.h"
 #include "../include/TrapHUD.h"
+#include "../include/Heavy.h"
+#include "../include/Melee.h"
 
 void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime);
 
@@ -27,6 +29,12 @@ int main(int argc, char* args[]) {
 	Player* p = new Player(250, 200, renderer);
 	// trap hud 
 	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects);
+
+	Object* g = new Melee(1100, 200, renderer);
+
+	g->setTarget(p);
+	objects.insert(objects.begin(), g);
+
 
 
 	while (!gvars.gameLoop) {
@@ -60,10 +68,9 @@ int main(int argc, char* args[]) {
 		All player rendering, movements, and attack goes below this code
 		*/
 		p->render();
-		p->move(map->getMap(), system->getDeltaTime());
+		//p->move(map->getMap(), system->getDeltaTime());
 
 		/* Player End */
-
 		/*
 		both vectors are rendered using a helper function in Renderer class 
 		*/
@@ -105,8 +112,7 @@ void updateList(vector<Object*> &objects, vector<Object*>& bullets, Map *map, do
 		objects.at(i)->fire(objects, bullets, deltaTime);
 	}
 
-	// move and fire bullet and particles
-
+	// move and fire bullet and particles 
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets.at(i)->move(map->getMap(), deltaTime);
 		bullets.at(i)->fire(objects, bullets, deltaTime);

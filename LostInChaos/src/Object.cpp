@@ -78,6 +78,10 @@ void Object::fire(vector<Object*>& list, vector<Object*>& bullets, double deltaT
 
 }
 
+void Object::setTarget(Object* target) {
+
+}
+
 int Object::getType() {
 	return type;
 }

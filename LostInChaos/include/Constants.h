@@ -90,8 +90,10 @@ const string MAP_FILE = BASE + "map.txt";
 const string TILESET_PNG = BASE + "tiles/tileset.png";
 
 // sprites
-const string GUNNER_PNG = BASE + "Ranger.png";
+const string GUNNER_PNG = BASE + "medic.png";
 const string PLAYER_PNG = BASE + "player.png";
+const string HEAVY_PNG = BASE + "heavy.png";
+const string MELEE_PNG = BASE + "melee.png";
 
 // TRAPS SPRITES
 const string TOWER_PNG = BASE + "/turrets/tower.png";
@@ -124,7 +126,7 @@ const int NUM_OF_TRAPS = 3;
 
 // ENUM FOR TYPE OF OBJECTS
 enum TAG {
-	PLAYER_TAG, GUNNER_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG, MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN
+	PLAYER_TAG, GUNNER_TAG, HEAVY_TAG, MELEE_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG, MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN
 };
 
 enum TRAPS_INDEX {

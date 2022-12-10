@@ -17,11 +17,15 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 	// 8 valid neighbours of the current node
 	set<Node> openList;
 
-	// starting node 
-	Node* s = new Node(calc_x(300), calc_y(300));
-	// goal node
-	Node g(calc_x((int)target->getX()), calc_y((int)target->getY()));
+	int openX, openY;
+	SDL_GetMouseState(&openX, &openY);
 
+	// starting node 
+	Node* s = new Node( calc_x((int) start->getX()), calc_y((int) start->getY()));
+	// goal node
+	//Node g(calc_x((int)target->getX()), calc_y((int)target->getY()));
+
+	Node g(calc_x((int) target->getX()), calc_y((int) target->getY()));
 	// adding start node to open list to begin our search
 	openList.insert(*s);
 
@@ -63,6 +67,8 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 
 		// for each of the 8 successors
 		for (int i = 0; i < successors.size(); i++) {
+
+			if (successors.at(i) == nullptr) continue;
 
 			// get the successor
 			Node s = *successors.at(i);
@@ -109,6 +115,7 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 				s.g_cost = q.g_cost + 10;
 			}
 
+			//s.g_cost = q.g_cost + 14;
 			// To calculate the h_cost (hueristic cost) first 
 			// absolute difference of x and y position is calculated betewen goal 
 			// and successor 
@@ -118,20 +125,27 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 
 			// Diagonal distance:  the maximum of absolute values of differences 
 			// in the goal’s x and y coordinates and the current cell’s x and y coordinates respectively
-			s.h_cost = TILE_WIDTH * (dx + dy) + (16) * min(dx, dy);
+
+			//s.h_cost = TILE_WIDTH * (dx + dy) + (8) * min(dx, dy);
+
+			s.h_cost = dx + dy;
 
 			// set total cost by adding g and h
 			s.total_cost = s.g_cost + s.h_cost;
 
-			// if already in closed list skip this succecssor
-			if (closedList[MAP_WIDTH * (s.y / TILE_HEIGHT) + (s.x / TILE_WIDTH)] == true) {
-				continue;
+			int pindex = MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT);
+
+
+			if (pindex < MAP_LENGTH) {
+				// if already in closed list skip this succecssor
+				if (closedList[MAP_WIDTH * (s.y / TILE_HEIGHT) + (s.x / TILE_WIDTH)] == true) {
+					continue;
+				}
 			}
+
 
 			// find the node with same x, y in open list
 			set<Node>::iterator it = std::find_if(openList.begin(), openList.end(), s);
-
-			int pindex = MAP_WIDTH * (s.y / TILE_WIDTH) + (s.x / TILE_HEIGHT);
 
 			// if node in open list exist
 			if (it != openList.end()) {
@@ -217,17 +231,33 @@ stack<SDL_Point> Astar::astar(std::array<Tile*, MAP_LENGTH>& map) {
 
 std::array<Node*, 8> Astar::generate_successors(Node* n) {
 
-	// array to store successors genearted given a Node* n
 	std::array<Node*, 8> nodes;
 
+	// init array to nullptr
+	for (Node* p : nodes) {
+		p = nullptr;
+	}
+
+	int x, y;
+
 	// TOP
-	nodes[0] = new Node(n->x, calc_y(n->y - 5));
+	x = n->x;
+	y = n->y - 5;
+	if (y > 0) nodes[0] = new Node(x, calc_y(y));
+
 	// BOTTOM
-	nodes[1] = new Node(n->x, calc_y(n->y + TILE_HEIGHT + 5));
+	y = n->y + TILE_HEIGHT + 5;
+	if (y < SCREEN_HEIGHT) nodes[1] = new Node(n->x, calc_y(y));
+
 	// LEFT
-	nodes[2] = new Node(calc_x(n->x - 5), n->y);
+	x = n->x - 5;
+	y = n->y;
+	if (x > MAP_LEFT_OFFSET) nodes[2] = new Node(calc_x(x), y);
+
 	// RIGHT
-	nodes[3] = new Node(calc_x(n->x + TILE_WIDTH + 5), n->y);
+	x = n->x + TILE_WIDTH + 5;
+	y = n->y;
+	if (x < SCREEN_WIDTH) nodes[3] = new Node(calc_x(x), y);
 
 	// TOP LEFT DIAGONAL
 	nodes[4] = new Node(calc_x(n->x - 5), calc_y(n->y - 5));
@@ -243,11 +273,9 @@ std::array<Node*, 8> Astar::generate_successors(Node* n) {
 		nodes[i]->diagonal = true;
 	}
 
-	// return nodes array 
 	return nodes;
 
 }
-
 int Astar::calc_x(int x) {
 	// calculate remainders
 	double x_remainder = (double)x / TILE_WIDTH;

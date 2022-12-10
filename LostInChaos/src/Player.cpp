@@ -15,18 +15,7 @@ void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
 	Astar astar(this, nullptr);
 
-	stack<SDL_Point> path = astar.astar(map);
-
-	while (path.size() != 0) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		int xP = path.top().x;
-		int xY = path.top().y;
-		SDL_Rect r = { xP, xY, 32, 32 };
-		//SDL_RenderFillRect(renderer, &r);
-
-		path.pop();
-	}
-
+	
 
 	// future values of x and y calculate before moving
 	// multiplied by 5 to have some distance before it collides, in order to prevent getting stuck 
@@ -46,8 +35,6 @@ void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
 	collisionRect.x = (int)x;
 	collisionRect.y = (int)y;
-
-
 }
 
 void Player::render() {
@@ -83,7 +70,6 @@ void Player::handleInput() {
 		frame++;
 		translate(-2.0, 0);
 	}
-	
 }
 
 void Player::clipSheet() {
