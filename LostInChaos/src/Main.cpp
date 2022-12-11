@@ -9,11 +9,16 @@
 #include "../include/Soldier.h"
 #include "../include/Hitman.h"
 #include "../include/MenuManager.h"
+#include "../include/Explosion.h"
+#include "../include/Blood.h"
 
-void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime);
 
-void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, 
-	unsigned int &timelapse, Map* map, SoundManager* sm);
+SoundManager* sm = new SoundManager();
+
+void updateList(SDL_Renderer* renderer, vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime);
+
+void generateEnemies(SDL_Renderer* renderer, vector<Object*>& objects, Object* player,
+	unsigned int& timelapse, Map* map, SoundManager* sm);
 
 int main(int argc, char* args[]) {
 
@@ -29,7 +34,6 @@ int main(int argc, char* args[]) {
 	MenuManager* menu = new MenuManager(renderer);
 	// sound manager to play sfx and music
 
-	SoundManager* sm = new SoundManager();
 
 	// game objects vector to store objects such as enemies and turrets
 	vector<Object*> objects;
@@ -53,7 +57,7 @@ int main(int argc, char* args[]) {
 		// keep updating deltaTime
 		system->updateDeltaTime();
 
-		
+
 		// handle events like mouse click and keyboard presses
 		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0) {
@@ -115,7 +119,7 @@ int main(int argc, char* args[]) {
 			/*
 			Enemeies generated at map
 			*/
-			gvars.enemyCounter += (unsigned int) system->getDeltaTime();
+			gvars.enemyCounter += (unsigned int)system->getDeltaTime();
 			generateEnemies(renderer, objects, player, gvars.enemyCounter, map, sm);
 			/*
 			All player rendering, movements, and attack goes below this code
@@ -135,8 +139,8 @@ int main(int argc, char* args[]) {
 			/*
 			Lists are updated such as movement, attack and other function calls
 			*/
-			updateList(objects, bullets, map, system->getDeltaTime());
-			updateList(objects, bullets, map, system->getDeltaTime());
+			updateList(renderer, objects, bullets, map, system->getDeltaTime());
+			updateList(renderer, objects, bullets, map, system->getDeltaTime());
 
 			/* List updating End */
 
@@ -162,9 +166,9 @@ int main(int argc, char* args[]) {
 // function to generate several enemies after time
 // generation increases as time increases hence level gets harder
 
-void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, 
-	unsigned int &timelapse, Map* map, SoundManager* sm) {
-	
+void generateEnemies(SDL_Renderer* renderer, vector<Object*>& objects, Object* player,
+	unsigned int& timelapse, Map* map, SoundManager* sm) {
+
 	// after every five seconds generate random enemies
 	unsigned int delay = 5000;
 	if (timelapse > delay) {
@@ -185,8 +189,8 @@ void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* p
 		// generate a zombie and hitman
 		else if (eType > 30 && eType <= 70) {
 
-			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects,sm);
-			Object* zombie = new Zombie(xPos , yPos + 64, renderer, map, player, &objects,sm);
+			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects, sm);
+			Object* zombie = new Zombie(xPos, yPos + 64, renderer, map, player, &objects, sm);
 			objects.insert(objects.begin(), hitman);
 			objects.insert(objects.begin(), zombie);
 		}
@@ -205,7 +209,8 @@ void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* p
 }
 
 
-void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime) {
+void updateList(SDL_Renderer* renderer, vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime) {
+
 
 	/*
 	Collision detection between game objects
@@ -216,9 +221,10 @@ void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, do
 		for (int j = 0; j < objects.size(); j++) {
 			int BTag = bullets[i]->getType();
 			int OTag = objects[j]->getType();
-			
-			int dmg = bullets[i]->getDamage();
-			int eDmg = objects[j]->getDamage();
+			int dmg = 3;
+			if (BTag == ENEMY_MG_BULLET_TAG || BTag == ALLY_MG_BULLET_TAG) {
+				dmg = 1;
+			}
 
 			if (checkCollision(bullets[i]->getCollisionRect(), objects[j]->getCollisionRect(), 0)) {
 
@@ -226,21 +232,28 @@ void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, do
 				if (BTag == ENEMY_MISSILE_BULLET_TAG || BTag == ENEMY_CANNON_BULLET_TAG || BTag == ENEMY_MG_BULLET_TAG) {
 					// enemy bullets hit a turret
 					if (OTag == ML || OTag == CAN || OTag == MG) {
-						objects[j]->kill(2, deltaTime);
-						
+						objects[j]->kill(dmg, deltaTime);
+						Explosion* Exp = new Explosion(objects[j]->getX(), objects[j]->getY(), 0, 32, 32, renderer, sm);
+						objects.insert(objects.begin() + objects.size(), Exp);
+
 					}
 					// enemy bullets hit player
 					if (OTag == PLAYER_TAG) {
-						objects[j]->kill(eDmg, deltaTime);
-						
+						objects[j]->kill(dmg, deltaTime);
+						Blood* Bld = new Blood(objects[j]->getX(), objects[j]->getY(), 0, 32, 32, renderer, sm);
+						objects.insert(objects.begin() + objects.size(), Bld);
+
 					}
 				}
 				// if ally bullets hit
 				if (BTag == ALLY_CANNON_BULLET_TAG || BTag == ALLY_MG_BULLET_TAG || BTag == ALLY_MISSILE_BULLET_TAG) {
 					// if ally bullets hit enemies
 					if (OTag == SOLDIER_TAG || OTag == ZOMBIE_TAG || OTag == HITMAN_TAG) {
-						objects[j]->kill(3, deltaTime);
-						
+						objects[j]->kill(dmg, deltaTime);
+						Blood* Bld = new Blood(objects[j]->getX(), objects[j]->getY(), 0, 32, 32, renderer, sm);
+						objects.insert(objects.begin() + objects.size(), Bld);
+
+
 					}
 				}
 
