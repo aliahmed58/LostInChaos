@@ -13,9 +13,6 @@ Player::Player(float x, float y, SDL_Renderer* renderer) : Object(x, y, renderer
 void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 	handleInput();
 
-	Astar astar(this, nullptr);
-
-	
 
 	// future values of x and y calculate before moving
 	// multiplied by 5 to have some distance before it collides, in order to prevent getting stuck 
@@ -39,11 +36,11 @@ void Player::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
 void Player::render() {
 
-	int f = (frame % 30) / 6;
+	int f = (frame %  5);
 
 	SDL_Rect dst = {collisionRect.x , collisionRect.y, rects[f].w, rects[f].h};
 	
-	sprite->renderCopyEx(&rects[f], &dst, nullptr, angle);
+	sprite->renderCopyEx(&rects[0], &dst, nullptr, angle);
 
 }
 
@@ -74,38 +71,33 @@ void Player::handleInput() {
 
 void Player::clipSheet() {
 	// Coordinates of sprites in sprite sheet 
-	// Total sprites: 6
-	// i = row, j = col, (i, j)
-	// (0, 0)
+// Total sprites: 5
+// i = row, j = col, (i, j)
+// (0, 0)
 	rects[0].x = 0;
 	rects[0].y = 0;
-	rects[0].w = 35;
-	rects[0].h = 42;
+	rects[0].w = 31;
+	rects[0].h = 32;
 	// (0, 1)
-	rects[1].x = 35;
+	rects[1].x = 31;
 	rects[1].y = 0;
-	rects[1].w = 35;
-	rects[1].h = 42;
+	rects[1].w = 31;
+	rects[1].h = 32;
 	// (0, 2)
-	rects[2].x = 70;
+	rects[2].x = 62;
 	rects[2].y = 0;
-	rects[2].w = 35;
-	rects[2].h = 42;
+	rects[2].w = 31;
+	rects[2].h = 32;
 	// (0, 3)
-	rects[3].x = 105;
+	rects[3].x = 93;
 	rects[3].y = 0;
-	rects[3].w = 35;
-	rects[3].h = 42;
+	rects[3].w = 31;
+	rects[3].h = 32;
 	// (0, 4)
-	rects[4].x = 140;
+	rects[4].x = 124;
 	rects[4].y = 0;
-	rects[4].w = 35;
-	rects[4].h = 42;
-	// (0, 5)
-	rects[5].x = 175;
-	rects[5].y = 0;
-	rects[5].w = 35;
-	rects[5].h = 42;
+	rects[4].w = 31;
+	rects[4].h = 32;
 
 
 }

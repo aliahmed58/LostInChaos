@@ -133,13 +133,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Astar.h" />
+    <ClInclude Include="include\Blood.h" />
     <ClInclude Include="include\Bullet.h" />
+    <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Cannon.h" />
     <ClInclude Include="include\CannonBullet.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Enemy.h" />
+    <ClInclude Include="include\Explosion.h" />
+    <ClInclude Include="include\Font.h" />
     <ClInclude Include="include\GlobalVars.h" />
-    <ClInclude Include="include\Gunner.h" />
+    <ClInclude Include="include\MenuManager.h" />
+    <ClInclude Include="include\Particle.h" />
+    <ClInclude Include="include\Soldier.h" />
     <ClInclude Include="include\Heavy.h" />
     <ClInclude Include="include\helper.h" />
     <ClInclude Include="include\MachineGun.h" />
@@ -160,12 +166,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Astar.cpp" />
+    <ClCompile Include="src\Blood.cpp" />
     <ClCompile Include="src\Bullet.cpp" />
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Cannon.cpp" />
     <ClCompile Include="src\CannonBullet.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\Explosion.cpp" />
+    <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\GlobalVars.cpp" />
-    <ClCompile Include="src\Gunner.cpp" />
+    <ClCompile Include="src\MenuManager.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
+    <ClCompile Include="src\Soldier.cpp" />
     <ClCompile Include="src\Heavy.cpp" />
     <ClCompile Include="src\helper.cpp" />
     <ClCompile Include="src\MachineGun.cpp" />

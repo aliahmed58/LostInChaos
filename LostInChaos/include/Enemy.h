@@ -28,10 +28,14 @@ public:
 
 	// using the virtual fire function, each enemy will define its different type of attacks
 
+	bool LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime);
+
 protected:
 
 	// attack mode which tells if enemy should attack or follwo A* path
 	bool attackMode;
+
+	bool targetFound;
 
 	// target for A* search
 	Object* target;

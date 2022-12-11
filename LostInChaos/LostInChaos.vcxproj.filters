@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{029f02ce-e816-4976-a454-6aa039f41311}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Particles">
+      <UniqueIdentifier>{0835b49b-b191-4ca6-ac0f-b6fef0b22db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Particles">
+      <UniqueIdentifier>{2cff0ee8-090a-4450-96a9-e67901d73fa0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Timer.h">
@@ -129,7 +135,7 @@
     <ClInclude Include="include\Player.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
-    <ClInclude Include="include\Gunner.h">
+    <ClInclude Include="include\Soldier.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="include\Heavy.h">
@@ -137,6 +143,24 @@
     </ClInclude>
     <ClInclude Include="include\Melee.h">
       <Filter>Header Files\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Button.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Font.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MenuManager.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Blood.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Explosion.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Particle.h">
+      <Filter>Header Files\Particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,7 +230,7 @@
     <ClCompile Include="src\Player.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gunner.cpp">
+    <ClCompile Include="src\Soldier.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="src\Heavy.cpp">
@@ -214,6 +238,24 @@
     </ClCompile>
     <ClCompile Include="src\Melee.cpp">
       <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blood.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Explosion.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Particle.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Font.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Button.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MenuManager.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

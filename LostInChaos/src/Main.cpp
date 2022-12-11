@@ -6,15 +6,23 @@
 #include "../include/GlobalVars.h"
 #include "../include/TrapHUD.h"
 #include "../include/Heavy.h"
-#include "../include/Melee.h"
+#include "../include/Soldier.h"
+#include "../include/MenuManager.h"
 
 void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime);
 
 int main(int argc, char* args[]) {
 
 	GlobalVars gvars;
+
+	// set in menu to true for game start
+	gvars.inMenu = true;
+
 	Renderer* system = new Renderer();
 	SDL_Renderer* renderer = system->getRenderer();
+
+	// menu manager to handle UI elements
+	MenuManager* menu = new MenuManager(renderer);
 
 	// game objects vector to store objects such as enemies and turrets
 	vector<Object*> objects;
@@ -30,7 +38,7 @@ int main(int argc, char* args[]) {
 	// trap hud 
 	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects);
 
-	Object* g = new Heavy(722, 110, renderer, map, p);
+	Object* g = new Soldier(722, 92, renderer, map, p);
 
 	objects.insert(objects.begin(), g);
 
@@ -47,8 +55,26 @@ int main(int argc, char* args[]) {
 			}
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
-				printf("X: %d\n", e.button.x);
-				printf("Y: %d\n", e.button.y);
+				if (gvars.inMenu) {
+					// PLAY BUTTON PRESSED
+					if (e.button.x > (SCREEN_WIDTH / 2) - 92 - 5 && e.button.x < (SCREEN_WIDTH / 2) - 92 - 5 + 160 &&
+						e.button.y > SCREEN_HEIGHT / 2 - 80 && e.button.y < SCREEN_HEIGHT / 2 - 80 + 64) {
+						gvars.inMenu = false;
+					}
+					// SAVE BUTTON PRESSED
+					if (e.button.x > (SCREEN_WIDTH / 2) - 46 && e.button.x < (SCREEN_WIDTH / 2) + 92 &&
+						e.button.y > SCREEN_HEIGHT / 2 && e.button.y < SCREEN_HEIGHT / 2 + 100) {
+						gvars.inMenu = false;
+
+						// carry out save operation
+					}
+					// EXIT BUTTON PRESSED
+					if (e.button.x > (SCREEN_WIDTH / 2) - 46 && e.button.x < (SCREEN_WIDTH / 2) + 92 &&
+						e.button.y > SCREEN_HEIGHT / 2 && e.button.y < SCREEN_HEIGHT / 2 + 100) {
+						gvars.inMenu = false;
+						gvars.gameLoop = false;
+					}
+				}
 			}
 
 			// handle trap selection when user clicks on traps and places them
@@ -63,52 +89,61 @@ int main(int argc, char* args[]) {
 		// clear renderer to draw on screen
 		SDL_RenderClear(renderer);
 
-		/*
-		Map rendered below every entity 
-		*/
-		map->renderMap();
+		// render menu if the screen is in menu
 
-		/*
-		All player rendering, movements, and attack goes below this code
-		*/
-		p->render();
-		p->move(map->getMap(), system->getDeltaTime());
+		if (gvars.inMenu) {
+			menu->render();
+		}
+		else {
 
-		/* Player End */
-		/*
-		both vectors are rendered using a helper function in Renderer class 
-		*/
-		system->renderList(objects);
-		system->renderList(bullets);
-		
-		/* List Rendering End*/
+			/*
+			Map rendered below every entity
+			*/
+			map->renderMap();
 
-		/*
-		Lists are updated such as movement, attack and other function calls
-		*/
-		updateList(objects, bullets, map, system->getDeltaTime());
-		updateList(objects, bullets, map, system->getDeltaTime());
+			/*
+			All player rendering, movements, and attack goes below this code
+			*/
+			p->render();
+			p->move(map->getMap(), system->getDeltaTime());
 
-		/* List updating End */
+			/* Player End */
+			/*
+			both vectors are rendered using a helper function in Renderer class
+			*/
+			system->renderList(objects);
+			system->renderList(bullets);
 
-		/*
-		Trap HUD shown at right side of the game is rendered
-		*/
-		trapHUD->renderHUD(e);
+			/* List Rendering End*/
 
-		/* Trap HUD Rendering End*/
+			/*
+			Lists are updated such as movement, attack and other function calls
+			*/
+			updateList(objects, bullets, map, system->getDeltaTime());
+			updateList(objects, bullets, map, system->getDeltaTime());
 
+			/* List updating End */
+
+			/*
+			Trap HUD shown at right side of the game is rendered
+			*/
+			trapHUD->renderHUD(e);
+
+			/* Trap HUD Rendering End*/
+
+		}
 		// render above entities
 		SDL_RenderPresent(renderer);
 
 	}
 	// if game exits, delete renderer and all other components
+	delete menu;
 	delete system;
 	return 0;
 }
 
 
-void updateList(vector<Object*> &objects, vector<Object*>& bullets, Map *map, double deltaTime) {
+void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime) {
 
 	// move and fire enemies, turrets
 	for (int i = 0; i < objects.size(); i++) {

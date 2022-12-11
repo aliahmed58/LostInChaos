@@ -1,0 +1,12 @@
+#include "../include/Blood.h"
+
+Blood::Blood() {};
+
+Blood::Blood(float x, float y, float angle, int height, int width, SDL_Renderer* renderer) : Particle(x, y, angle, height, width, renderer, BLOOD_PNG, BLOOD_TAG) {
+
+}
+
+void Blood::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
+	
+}
+

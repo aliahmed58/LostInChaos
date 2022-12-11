@@ -83,6 +83,14 @@ const int MID_WALL_L = 99;
 // mid wall vertical border right | rotate -90 degrees 
 const int MID_WALL_R = 100;
 
+//FONT
+const std::string FONT_PATH = BASE + "font.ttf";
+
+// MENU ELEMENTS
+const std::string BUTTON_MIDDLE = BASE + "menu/button_middle.png";
+const std::string BUTTON_CORNER = BASE + "menu/button_corner.png";
+const std::string BUTTON_TOP = BASE + "menu/button_side.png";
+
 
 // MAP PATH
 const string MAP_FILE = BASE + "map.txt";
@@ -92,8 +100,8 @@ const string MAP_FILE = BASE + "map.txt";
 const string TILESET_PNG = BASE + "tiles/tileset.png";
 
 // sprites
-const string GUNNER_PNG = BASE + "medic.png";
-const string PLAYER_PNG = BASE + "player.png";
+const string SOLDIER_PNG = BASE + "soldier.png";
+const string PLAYER_PNG = BASE + "player2.png";
 const string HEAVY_PNG = BASE + "heavy.png";
 const string MELEE_PNG = BASE + "melee.png";
 
@@ -113,6 +121,10 @@ const string MG_BULLET_PNG = BASE + "/turrets/mgBullet.png";
 const string CANNON_BULLET_PNG = BASE + "/turrets/cannonBullet.png";
 const string MISSILE_BULLET_PNG = BASE + "/turrets/missileBullet.png";
 
+// PARTICLES 
+const string BLOOD_PNG = BASE + "blood_splat.png";
+const string EXPLOSION_PNG = BASE + "explosion.png";
+
 // AUDIO AND SFX
 
 // UI RESOURCES
@@ -128,7 +140,8 @@ const int NUM_OF_TRAPS = 3;
 
 // ENUM FOR TYPE OF OBJECTS
 enum TAG {
-	PLAYER_TAG, GUNNER_TAG, HEAVY_TAG, MELEE_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG, MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN
+	PLAYER_TAG, GUNNER_TAG, HEAVY_TAG, MELEE_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG,
+	MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN, BLOOD_TAG, EXPLOSION_TAG
 };
 
 enum TRAPS_INDEX {

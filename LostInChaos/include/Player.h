@@ -22,4 +22,6 @@ private:
 	SDL_Rect rects[6];
 
 	int frame;
+
+	int frameCounter;
 };
