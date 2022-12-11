@@ -2,16 +2,14 @@
 #include "Object.h"
 #include "helper.h"
 #include "Astar.h"
+#include "Timer.h"
 
 class Enemy : public Object {
 public:
 	Enemy();
 
 	// overriding ctor for enemy
-	Enemy(float x, float y, SDL_Renderer* renderer, std::string filename, int type);
-
-	// to set a target to any object so that enemy can attack or find that object
-	void setTarget(Object* target);
+	Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, std::string filename, int type);
 
 	/*
 	 All enemy movement will comprise of 2 basic things: 
@@ -41,12 +39,11 @@ protected:
 	// frame int for enemies that have sprite sheets
 	int frame;
 
-	// conter
-	int frameCounter;
-
 private:
+	
+	Map* map;
 
-	// debug only
+	stack<SDL_Point*> path;
 
 	void handleInput();
 

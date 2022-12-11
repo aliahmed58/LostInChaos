@@ -2,57 +2,80 @@
 
 Enemy::Enemy() {};
 
-Enemy::Enemy(float x, float y, SDL_Renderer* renderer, std::string filename, int type) : Object(x, y, renderer, filename, type) {
-	
+Enemy::Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, std::string filename, int type) : Object(x, y, renderer, filename, type) {
+	// calculate A* path from current pos to player pos
+	this->map = map;
+	target = player;
+
 }
 
-void Enemy::setTarget(Object* target) {
-	this->target = target;
-}
 
 void Enemy::render() {
 	SDL_Rect src = { 0,0, collisionRect.w, collisionRect.h };
+	SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+
 	sprite->renderCopyEx(&src, &collisionRect, nullptr, angle);
+
+	// testing purposes
+	/*SDL_Rect p = { x + collisionRect.w / 2, y + collisionRect.h / 2, 4, 4 };
+	SDL_RenderFillRect(renderer, &p);
+	SDL_RenderDrawRect(renderer, &collisionRect);*/
 }
 
 void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
-
-	// to be fixed only and changed only when needed - might be added separately where needed in class
-	frameCounter += (int) deltaTime;
-
-	// change frames for enemies that have sprite sheet
-	if (frameCounter > 100) {
-		frame++;
-		frameCounter = 0;
-	}
-
-	handleInput();
-
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderDrawRect(renderer, &collisionRect);
-
-	// calculate A* path from current pos to player pos
 	Astar astar(target, this);
-
-	stack<SDL_Point> path = astar.astar(map);
-
-	while (path.size() != 0) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-
-		int xP = path.top().x;
-		int yP = path.top().y;
-
-		SDL_Rect r = { xP, yP, 32, 32 };
-
-		/*
-			Make the enemy follow path
-		*/
-
-		//SDL_RenderFillRect(renderer, &r);
-		path.pop();
+	if (path.size() == 0) {
+		path = astar.astar(map);
 	}
 
+	if (path.size() != 0) {
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+
+		SDL_Point* k = path.top();
+		SDL_Rect r = { k->x + collisionRect.w / 2, k->y + collisionRect.h / 2 , 4, 4 };
+
+		int dx = (int)x - r.x;
+		int dy = (int)y - r.y;
+
+		int signX = 1;
+		int signY = 1;
+
+		if (dy < 0) signY = -1;
+		if (dx < 0) signX = -1;
+
+		//printf("dx: %d\n", dx);
+
+		if (abs(dx) <= 3 && abs(dy) <= 3) {
+			path.pop();
+			delete k;
+		}
+		else {
+			if (abs(dy) != 0) {
+				if (signY < 0) {
+					translate(0, -1.0);
+					angle = 180;
+				}
+				else {
+					angle = 0;
+					translate(0, 1.0);
+				}
+			}
+			if (abs(dx) != 0) {
+				if (signX < 0) {
+					translate(-1, 0);
+					angle = 90;
+				}
+				else {
+					angle = -90;
+					translate(1, 0);
+				}
+			}
+		}
+
+		// testing pureposes
+		//SDL_RenderFillRect(renderer, &r);
+	}
 
 	// future values of x and y calculate before moving
 	// multiplied by 5 to have some distance before it collides, in order to prevent getting stuck 
@@ -62,8 +85,8 @@ void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 	SDL_Rect wallCollisionRect = { tempX, tempY, collisionRect.w, collisionRect.h };
 
 	if (!(wallCollision(map, wallCollisionRect))) {
-		x -= tx * (float)deltaTime / 13;
-		y -= ty * (float)deltaTime / 13;
+		x -= tx * (float)deltaTime / 16;
+		y -= ty * (float)deltaTime / 16;
 	}
 	else return;
 

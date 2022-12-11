@@ -2,5 +2,6 @@
 
 Heavy::Heavy() {}
 
-Heavy::Heavy(float x, float y, SDL_Renderer* renderer) : Enemy (x, y, renderer, HEAVY_PNG, HEAVY_TAG) {
+Heavy::Heavy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player) 
+	: Enemy (x, y, renderer, map, player, HEAVY_PNG, HEAVY_TAG) {
 }

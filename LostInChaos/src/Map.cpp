@@ -76,6 +76,9 @@ void Map::renderMap() {
 				case PLAIN:
 					tileset->render(&rects[PLAIN], &dst);
 					break;
+				case ASTAR_BOUNDARY:
+					tileset->render(&rects[PLAIN], &dst);
+					break;
 				case SWALL_T:
 					tileset->render(&rects[SWALL_T], &dst);
 					break;

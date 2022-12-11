@@ -62,6 +62,7 @@ bool Object::wallCollision(std::array<Tile*, MAP_LENGTH>& map, SDL_Rect &rect) {
 	return false;
 }
 
+
 SDL_Rect& Object::getCollisionRect() {
 	return collisionRect;
 }

@@ -2,7 +2,8 @@
 
 Melee::Melee() {};
 
-Melee::Melee(float x, float y, SDL_Renderer* renderer) : Enemy(x, y, renderer, MELEE_PNG, MELEE_TAG) {
+Melee::Melee(float x, float y, SDL_Renderer* renderer, Map* map, Object* player) 
+	: Enemy(x, y, renderer, map, player, MELEE_PNG, MELEE_TAG) {
 	clipSheet();
 	collisionRect.w = rects[0].w;
 	collisionRect.h = rects[0].h;

@@ -6,6 +6,6 @@ public:
 	
 	Heavy();
 
-	Heavy(float x, float y, SDL_Renderer* renderer);
+	Heavy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player);
 
 };

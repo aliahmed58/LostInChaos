@@ -17,9 +17,6 @@ public:
 	// move object given x, y and delta Time.
 	virtual void move(std::array<Tile*, MAP_LENGTH> &map, double deltaTime) = 0;
 
-	// if object collides with walls 
-	virtual bool wallCollision(std::array<Tile*, MAP_LENGTH> &map, SDL_Rect &rect);
-
 	// kill an object.
 	virtual void kill(double deltaTime);
 
@@ -28,6 +25,9 @@ public:
 
 	// setting a target
 	virtual void setTarget(Object* target);
+
+	// if object collides with walls 
+	virtual bool wallCollision(std::array<Tile*, MAP_LENGTH>& map, SDL_Rect& rect);
 
 	// translate object to x and y offsets.
 	void translate(float x_val, float y_val);
@@ -58,6 +58,7 @@ protected:
 	Texture* sprite;
 	int type;
 	SDL_Renderer* renderer;
+
 
 };
 

@@ -24,11 +24,14 @@ struct Node {
 	// tells whether the node is a diagonal or not
 	bool diagonal;
 
+	bool init;
+
 	// initalize with default values
 	Node() {
 		x = y = g_cost = h_cost = total_cost = 0;
 		parent = {};
 		diagonal = false;
+		init = false;
 	};
 
 	// initalize a node given x and y values
@@ -38,6 +41,7 @@ struct Node {
 		this->x = x;
 		this->y = y;
 		diagonal = false;
+		init = true;
 	}
 
 	// operator function to tell the set to order nodes by 
@@ -71,7 +75,7 @@ public:
 	Astar(Object* target, Object* start);
 
 	// function that calculates A* path
-	stack<SDL_Point> astar(std::array<Tile*, MAP_LENGTH>& map);
+	stack<SDL_Point*> astar(std::array<Tile*, MAP_LENGTH>& map);
 
 private:
 	// calculate starting position of a block given x value
@@ -86,6 +90,6 @@ private:
 	Object* target;
 
 	// generate successors for a given node
-	std::array<Node*, 8> generate_successors(Node* n);
+	std::array<Node, 8> generate_successors(Node* n);
 };
 

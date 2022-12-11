@@ -26,15 +26,13 @@ int main(int argc, char* args[]) {
 	// map pointer 
 	Map* map = new Map(renderer);
 	// player poitner
-	Player* p = new Player(250, 200, renderer);
+	Player* p = new Player(722, 600, renderer);
 	// trap hud 
 	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects);
 
-	Object* g = new Melee(1100, 200, renderer);
+	Object* g = new Heavy(722, 110, renderer, map, p);
 
-	g->setTarget(p);
 	objects.insert(objects.begin(), g);
-
 
 
 	while (!gvars.gameLoop) {
@@ -47,6 +45,12 @@ int main(int argc, char* args[]) {
 			if (e.type == SDL_QUIT) {
 				gvars.gameLoop = true;
 			}
+
+			if (e.type == SDL_MOUSEBUTTONDOWN) {
+				printf("X: %d\n", e.button.x);
+				printf("Y: %d\n", e.button.y);
+			}
+
 			// handle trap selection when user clicks on traps and places them
 			// ESC key to cancel selection
 			// Left Mouse Click to select a turret
@@ -68,7 +72,7 @@ int main(int argc, char* args[]) {
 		All player rendering, movements, and attack goes below this code
 		*/
 		p->render();
-		//p->move(map->getMap(), system->getDeltaTime());
+		p->move(map->getMap(), system->getDeltaTime());
 
 		/* Player End */
 		/*

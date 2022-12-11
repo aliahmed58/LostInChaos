@@ -68,6 +68,8 @@ const int CTR_WALL = 45;
 // top left | rotate 180 of bottom right 
 const int CTL_WALL = 46;
 
+const int ASTAR_BOUNDARY = 114;
+
 // mid wall
 const int MID_WALL = 10;
 // mid wall border

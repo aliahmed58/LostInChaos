@@ -7,7 +7,7 @@ class Melee : public Enemy {
 public:
 	Melee();
 
-	Melee(float x, float y, SDL_Renderer* renderer);
+	Melee(float x, float y, SDL_Renderer* renderer, Map* map, Object* player);
 
 	void render();
 

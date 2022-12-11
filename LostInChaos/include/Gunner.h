@@ -6,6 +6,6 @@ class Gunner : public Enemy {
 public:
 	Gunner();
 
-	Gunner(float x, float y, SDL_Renderer* renderer);
+	Gunner(float x, float y, SDL_Renderer* renderer, Map* map, Object* player);
 
 };
