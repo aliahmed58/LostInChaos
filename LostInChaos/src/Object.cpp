@@ -62,6 +62,11 @@ bool Object::wallCollision(std::array<Tile*, MAP_LENGTH>& map, SDL_Rect &rect) {
 	return false;
 }
 
+bool Object::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime) {
+
+	return false;
+}
+
 
 SDL_Rect& Object::getCollisionRect() {
 	return collisionRect;

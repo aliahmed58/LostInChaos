@@ -2,7 +2,8 @@
 
 MissileLauncher::MissileLauncher() {};
 
-MissileLauncher::MissileLauncher(float x, float y, SDL_Renderer* renderer) : Trap(x, y, renderer, MISSILE_LAUNCHER_PNG, MISSILE_LAUNCHER) {
+MissileLauncher::MissileLauncher(float x, float y, SDL_Renderer* renderer, vector<Object*> targets) 
+	: Trap(x, y, targets, renderer, MISSILE_LAUNCHER_PNG, MISSILE_LAUNCHER) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 3;
 }

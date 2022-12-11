@@ -2,7 +2,7 @@
 
 MachineGun::MachineGun() {};
 
-MachineGun::MachineGun(float x, float y, SDL_Renderer* renderer) : Trap(x, y, renderer, MACHINE_GUN_PNG, MACHINE_GUN) {
+MachineGun::MachineGun(float x, float y, SDL_Renderer* renderer, vector<Object*> targets) : Trap(x, y, targets, renderer, MACHINE_GUN_PNG, MACHINE_GUN) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 1;
 }

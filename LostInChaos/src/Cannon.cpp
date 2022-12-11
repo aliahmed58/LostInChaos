@@ -2,7 +2,7 @@
 
 Cannon::Cannon() {};
 
-Cannon::Cannon(float x, float y, SDL_Renderer* renderer) : Trap(x, y, renderer, CANNON_PNG, CANNON) {
+Cannon::Cannon(float x, float y, SDL_Renderer* renderer, vector<Object*> targets) : Trap(x, y, targets, renderer, CANNON_PNG, CANNON) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 2;
 }

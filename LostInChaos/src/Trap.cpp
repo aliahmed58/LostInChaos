@@ -2,18 +2,23 @@
 
 Trap::Trap() {};
 
-Trap::Trap(float x, float y, SDL_Renderer* renderer, std::string fileName, int type) : Object(x, y, renderer, fileName, type) {
+Trap::Trap(float x, float y, vector<Object*> objects, SDL_Renderer* renderer, std::string fileName, int type) 
+	: Object(x, y, renderer, fileName, type) {
+
 	tower = new Texture(TOWER_PNG, renderer);
+	targets = objects;
 	shot = false;
 }
 
 void Trap::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
-	int xPos, yPos;
-	SDL_GetMouseState(&xPos, &yPos);
 
-	double diffX = xPos - x;
-	double diffY = yPos - y;
-	angle = calcAngle(diffX, diffY);
+	for (int i = 0; i < targets.size(); i++) {
+		if (targets[i]->getType() == MELEE_TAG || targets[i]->getType() == HEAVY_TAG || targets[i]->getType() == GUNNER_TAG) {
+			if (LineOfSight(&targets[i]->getCollisionRect(), 100, map, deltaTime)) {
+				break;
+			}
+		}
+	}
 }
 
 void Trap::render() {
@@ -28,6 +33,58 @@ void Trap::render() {
 	SDL_Point center = { dst.w / 2, dst.h - dst.h / 4 };
 
 	sprite->renderCopyEx(&src, &dst, &center, angle);
+}
+
+bool Trap::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime) {
+
+	SDL_Rect Rect = SDL_Rect();
+
+	Rect.w = 30;
+	Rect.h = 30;
+	Rect.x = (int)(x);
+	Rect.y = (int)(y);
+
+	float Vy = targetRect->y + targetRect->h / 2 - y - collisionRect.h / 2;
+	float Vx = targetRect->x + targetRect->w / 2 - x - collisionRect.w / 2;
+	float M = sqrt(Vy * Vy + Vx * Vx);
+
+	float stepY = Vy / M;
+	float stepX = Vx / M;
+	float currStepX = stepX;
+	float currStepY = stepY;
+	bool isWall = false;
+	bool foundTarget = false;
+
+	for (int i = 0; i < SightRadius; i++) {
+
+		for (int j = 0; j < map.size(); j++) {
+			if (checkCollision(*targetRect, Rect, 0)) {
+				angle = 180 * atan2((double)stepY, (double)stepX) / 3.14 + 90;
+				foundTarget = true;
+				return true;
+			}
+			int type = map[j]->getTileType();
+			Tile* t = map.at(j);
+			if (t != nullptr) {
+				SDL_Rect tRect = t->getRect();
+				if (checkCollision(tRect, Rect, 0) && (type == SWALL_R || type == SWALL_B || type == SWALL_T ||
+					type == SWALL_L || type == MID_WALL || type == MID_WALL_TOP || type == MID_WALL_BOTTOM
+					|| type == MID_WALL_VERTICAL || type == MID_WALL_R || type == MID_WALL_L)) {
+					isWall = true;
+					break;
+				}
+			}
+		}
+		if (isWall) {
+			break;
+		}
+		currStepX += stepX;
+		currStepY += stepY;
+		Rect.x += (int)currStepX;
+		Rect.y += (int)currStepY;
+	}
+
+	return false;
 }
 
 Object* Trap::getTarget(vector<Object*>& list) {

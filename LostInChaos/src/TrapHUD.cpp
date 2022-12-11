@@ -107,13 +107,13 @@ void TrapHUD::placeTrap(SDL_Event& e) {
 	Object* trap = nullptr;
 
 	if (selectedTrap == CAN) {
-		trap = new Cannon((float)x, (float)y, renderer);
+		trap = new Cannon((float)x, (float)y, renderer, *objects);
 	}
 	else if (selectedTrap == ML) {
-		trap = new MissileLauncher((float)x, (float)y, renderer);
+		trap = new MissileLauncher((float)x, (float)y, renderer, *objects);
 	}
 	else if (selectedTrap == MG) {
-		trap = new MachineGun((float)x, (float)y, renderer);
+		trap = new MachineGun((float)x, (float)y, renderer, *objects);
 	}
 	if (trap != nullptr) {
 		objects->insert(objects->begin(), trap);
