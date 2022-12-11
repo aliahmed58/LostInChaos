@@ -2,7 +2,8 @@
 
 MachineGun::MachineGun() {};
 
-MachineGun::MachineGun(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets) : Trap(x, y, targets, renderer, MACHINE_GUN_PNG, MACHINE_GUN) {
+MachineGun::MachineGun(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets, SoundManager* sm) 
+	: Trap(x, y, targets, renderer, MACHINE_GUN_PNG, MACHINE_GUN, sm) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 1;
 }
@@ -42,13 +43,15 @@ void MachineGun::fire(vector<Object*>& list, vector<Object*>& bullets, std::arra
 		double bY = originY + radius * sin(radAngle);
 
 		// create a cannon bullet object
-		Object* cBullet = new AllyMGBullet((float)bX, (float)bY, t, (float) angle, renderer);
+		Object* cBullet = new AllyMGBullet((float)bX, (float)bY, t, (float) angle, renderer, sm);
 
 		// insert into bullets vector
 		bullets.insert(bullets.begin(), cBullet);
 
 		shot = true;
 		timer.start();
+
+		sm->playSound(LASER_SHOOT);
 
 	}
 	else {

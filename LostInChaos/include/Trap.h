@@ -7,7 +7,7 @@
 class Trap : public Object {
 public:
 	Trap();
-	Trap(float x, float y, vector<Object*> *targets,SDL_Renderer* renderer, std::string fileName, int type);
+	Trap(float x, float y, vector<Object*> *targets,SDL_Renderer* renderer, std::string fileName, int type, SoundManager* sm);
 
 	void move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime);
 

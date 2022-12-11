@@ -10,8 +10,10 @@ TrapHUD::TrapHUD() {
 	}
 };
 
-TrapHUD::TrapHUD(SDL_Renderer* renderer, std::array<Tile*, MAP_LENGTH>* map, vector<Object*>* objects) {
+TrapHUD::TrapHUD(SDL_Renderer* renderer, std::array<Tile*, MAP_LENGTH>* map, vector<Object*>* objects,
+	SoundManager* sm) {
 	this->map = map;
+	this->sm = sm;
 	this->objects = objects;
 	this->renderer = renderer;
 
@@ -107,13 +109,13 @@ void TrapHUD::placeTrap(SDL_Event& e) {
 	Object* trap = nullptr;
 
 	if (selectedTrap == CAN) {
-		trap = new Cannon((float)x, (float)y, renderer, objects);
+		trap = new Cannon((float)x, (float)y, renderer, objects, sm);
 	}
 	else if (selectedTrap == ML) {
-		trap = new MissileLauncher((float)x, (float)y, renderer, objects);
+		trap = new MissileLauncher((float)x, (float)y, renderer, objects, sm);
 	}
 	else if (selectedTrap == MG) {
-		trap = new MachineGun((float)x, (float)y, renderer, objects);
+		trap = new MachineGun((float)x, (float)y, renderer, objects, sm);
 	}
 	if (trap != nullptr) {
 		objects->insert(objects->begin(), trap);

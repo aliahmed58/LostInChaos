@@ -2,7 +2,8 @@
 
 Explosion::Explosion() {};
 
-Explosion::Explosion(float x, float y, float angle, int height, int width, SDL_Renderer* renderer) : Particle(x, y, angle, height, width, renderer, EXPLOSION_PNG, EXPLOSION_TAG) {
+Explosion::Explosion(float x, float y, float angle, int height, int width, SDL_Renderer* renderer, SoundManager* sm) 
+	: Particle(x, y, angle, height, width, renderer, EXPLOSION_PNG, EXPLOSION_TAG, sm) {
 
 }
 

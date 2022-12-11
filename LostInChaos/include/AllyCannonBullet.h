@@ -9,6 +9,6 @@ public:
 	AllyCannonBullet();
 
 	// overloaded ctor for cannon gun bullet
-	AllyCannonBullet(float x, float y, Object* target, float angle, SDL_Renderer* renderer);
+	AllyCannonBullet(float x, float y, Object* target, float angle, SDL_Renderer* renderer, SoundManager* sm);
 
 };

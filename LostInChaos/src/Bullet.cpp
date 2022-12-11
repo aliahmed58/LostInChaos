@@ -2,8 +2,9 @@
 
 Bullet::Bullet() {};
 
-Bullet::Bullet(float x, float y, Object* target, float Angle, SDL_Renderer* renderer, std::string path, int type) : Object(x, y, renderer, path, type) {
-	damage = -1;
+Bullet::Bullet(float x, float y, Object* target, float Angle, SDL_Renderer* renderer, std::string path, int type, SoundManager* sm) 
+	: Object(x, y, renderer, path, sm, type) {
+	damage = 1;
 	this->target = target;
 
 	double diffX = target->getX() - x;

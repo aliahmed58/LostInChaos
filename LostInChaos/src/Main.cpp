@@ -12,7 +12,8 @@
 
 void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime);
 
-void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, unsigned int &timelapse, Map* map);
+void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, 
+	unsigned int &timelapse, Map* map, SoundManager* sm);
 
 int main(int argc, char* args[]) {
 
@@ -26,6 +27,9 @@ int main(int argc, char* args[]) {
 
 	// menu manager to handle UI elements
 	MenuManager* menu = new MenuManager(renderer);
+	// sound manager to play sfx and music
+
+	SoundManager* sm = new SoundManager();
 
 	// game objects vector to store objects such as enemies and turrets
 	vector<Object*> objects;
@@ -37,9 +41,9 @@ int main(int argc, char* args[]) {
 	// map pointer 
 	Map* map = new Map(renderer);
 	// player poitner
-	Player* player = new Player(722, 600, renderer);
+	Player* player = new Player(722, 600, renderer, sm);
 	// trap hud 
-	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects);
+	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects, sm);
 
 	Timer enemyGenerationTimer;
 
@@ -59,12 +63,13 @@ int main(int argc, char* args[]) {
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
 
-
 				if (gvars.inMenu) {
 					// PLAY BUTTON PRESSED
 					if (e.button.x > (SCREEN_WIDTH / 2) - 92 - 5 && e.button.x < (SCREEN_WIDTH / 2) - 92 - 5 + 160 &&
 						e.button.y > SCREEN_HEIGHT / 2 - 80 && e.button.y < SCREEN_HEIGHT / 2 - 80 + 64) {
 						gvars.inMenu = false;
+						Mix_HaltMusic();
+						sm->playGameMusic();
 					}
 					// SAVE BUTTON PRESSED
 					if (e.button.x > (SCREEN_WIDTH / 2) - 46 && e.button.x < (SCREEN_WIDTH / 2) + 92 &&
@@ -98,6 +103,7 @@ int main(int argc, char* args[]) {
 
 		if (gvars.inMenu) {
 			menu->render();
+			sm->playMenuMusic();
 		}
 		else {
 
@@ -110,7 +116,7 @@ int main(int argc, char* args[]) {
 			Enemeies generated at map
 			*/
 			gvars.enemyCounter += (unsigned int) system->getDeltaTime();
-			generateEnemies(renderer, objects, player, gvars.enemyCounter, map);
+			generateEnemies(renderer, objects, player, gvars.enemyCounter, map, sm);
 			/*
 			All player rendering, movements, and attack goes below this code
 			*/
@@ -148,6 +154,7 @@ int main(int argc, char* args[]) {
 	}
 	// if game exits, delete renderer and all other components
 	delete menu;
+	delete sm;
 	delete system;
 	return 0;
 }
@@ -155,7 +162,8 @@ int main(int argc, char* args[]) {
 // function to generate several enemies after time
 // generation increases as time increases hence level gets harder
 
-void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, unsigned int &timelapse, Map* map) {
+void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, 
+	unsigned int &timelapse, Map* map, SoundManager* sm) {
 	
 	// after every five seconds generate random enemies
 	unsigned int delay = 5000;
@@ -169,16 +177,16 @@ void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* p
 		// genearte a soldier and zombie
 		if (eType <= 30) {
 
-			Object* soldier = new Soldier(xPos, yPos, renderer, map, player, &objects);
-			Object* zombie = new Zombie(xPos, yPos + 64, renderer, map, player, &objects);
+			Object* soldier = new Soldier(xPos, yPos, renderer, map, player, &objects, sm);
+			Object* zombie = new Zombie(xPos, yPos + 64, renderer, map, player, &objects, sm);
 			objects.insert(objects.begin(), soldier);
 			objects.insert(objects.begin(), zombie);
 		}
 		// generate a zombie and hitman
 		else if (eType > 30 && eType <= 70) {
 
-			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects);
-			Object* zombie = new Zombie(xPos , yPos + 64, renderer, map, player, &objects);
+			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects,sm);
+			Object* zombie = new Zombie(xPos , yPos + 64, renderer, map, player, &objects,sm);
 			objects.insert(objects.begin(), hitman);
 			objects.insert(objects.begin(), zombie);
 		}
@@ -187,7 +195,7 @@ void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* p
 		else {
 
 
-			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects);
+			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects, sm);
 			objects.insert(objects.begin(), hitman);
 		}
 
@@ -208,10 +216,9 @@ void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, do
 		for (int j = 0; j < objects.size(); j++) {
 			int BTag = bullets[i]->getType();
 			int OTag = objects[j]->getType();
-			int dmg = 3;
-			if (BTag == ENEMY_MG_BULLET_TAG || BTag == ALLY_MG_BULLET_TAG) {
-				dmg = 1;
-			}
+			
+			int dmg = bullets[i]->getDamage();
+			int eDmg = objects[j]->getDamage();
 
 			if (checkCollision(bullets[i]->getCollisionRect(), objects[j]->getCollisionRect(), 0)) {
 
@@ -219,12 +226,12 @@ void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, do
 				if (BTag == ENEMY_MISSILE_BULLET_TAG || BTag == ENEMY_CANNON_BULLET_TAG || BTag == ENEMY_MG_BULLET_TAG) {
 					// enemy bullets hit a turret
 					if (OTag == ML || OTag == CAN || OTag == MG) {
-						objects[j]->kill(dmg, deltaTime);
+						objects[j]->kill(2, deltaTime);
 						
 					}
 					// enemy bullets hit player
 					if (OTag == PLAYER_TAG) {
-						objects[j]->kill(dmg, deltaTime);
+						objects[j]->kill(eDmg, deltaTime);
 						
 					}
 				}
@@ -232,7 +239,7 @@ void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, do
 				if (BTag == ALLY_CANNON_BULLET_TAG || BTag == ALLY_MG_BULLET_TAG || BTag == ALLY_MISSILE_BULLET_TAG) {
 					// if ally bullets hit enemies
 					if (OTag == SOLDIER_TAG || OTag == ZOMBIE_TAG || OTag == HITMAN_TAG) {
-						objects[j]->kill(dmg, deltaTime);
+						objects[j]->kill(3, deltaTime);
 						
 					}
 				}

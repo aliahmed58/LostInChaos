@@ -2,7 +2,8 @@
 
 Blood::Blood() {};
 
-Blood::Blood(float x, float y, float angle, int height, int width, SDL_Renderer* renderer) : Particle(x, y, angle, height, width, renderer, BLOOD_PNG, BLOOD_TAG) {
+Blood::Blood(float x, float y, float angle, int height, int width, SDL_Renderer* renderer, SoundManager* sm) 
+	: Particle(x, y, angle, height, width, renderer, BLOOD_PNG, BLOOD_TAG, sm) {
 
 }
 

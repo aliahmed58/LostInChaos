@@ -2,7 +2,8 @@
 
 Cannon::Cannon() {};
 
-Cannon::Cannon(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets) : Trap(x, y, targets, renderer, CANNON_PNG, CANNON) {
+Cannon::Cannon(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets, SoundManager* sm) :
+	Trap(x, y, targets, renderer, CANNON_PNG, CANNON, sm) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 2;
 }
@@ -44,7 +45,7 @@ void Cannon::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Ti
 			double bY = originY + radius * sin(radAngle);
 
 			// create a cannon bullet object
-			Object* cBullet = new AllyCannonBullet((float)bX, (float)bY, t, (float) angle, renderer);
+			Object* cBullet = new AllyCannonBullet((float)bX, (float)bY, t, (float) angle, renderer, sm);
 
 			// insert into bullets vector
 			bullets.insert(bullets.begin(), cBullet);

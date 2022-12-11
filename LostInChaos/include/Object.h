@@ -2,13 +2,14 @@
 #include "Texture.h"
 #include "Tile.h"
 #include "helper.h"
+#include "SoundManager.h"
 #include <vector>
 #include <array>
 
 class Object {
 public:
 	Object();
-	Object(float x, float y, SDL_Renderer* gRenderer, std::string file_name, int type);
+	Object(float x, float y, SDL_Renderer* gRenderer, std::string file_name, SoundManager* sm, int type);
 	virtual ~Object();
 
 	// render object on screen
@@ -45,6 +46,9 @@ public:
 	float getX();
 	float getY();
 
+	// get damage
+	int getDamage();
+
 protected:
 	float x;
 	float y;
@@ -58,6 +62,8 @@ protected:
 	Texture* sprite;
 	int type;
 	SDL_Renderer* renderer;
+	SoundManager* sm;
+	int damage;
 
 };
 

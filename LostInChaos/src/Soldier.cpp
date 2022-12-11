@@ -2,17 +2,67 @@
 
 Soldier::Soldier() {};
 
-Soldier::Soldier(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects) :
-	Enemy(x, y, renderer, map,player, objects, SOLDIER_PNG, SOLDIER_TAG) {
+Soldier::Soldier(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects, SoundManager* sm) :
+	Enemy(x, y, renderer, map,player, objects, SOLDIER_PNG, SOLDIER_TAG, sm) {
 
+	health = 1;
 	clipSheet();
 	collisionRect.w = rects[0].w;
 }
 
 void Soldier::render() {
-	if (attackMode) frame = 1;
+	if (attackPlayer || attackTurret) frame = 1;
 	else frame = 0;
 	sprite->renderCopyEx(&rects[frame], &collisionRect, nullptr, angle);
+}
+
+void Soldier::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
+	
+	if (!attackPlayer && !attackTurret) return;
+
+	//fire at target
+	if (!shot) {
+		// calculate radian angle
+		double radAngle = (angle) * (PI / 180);
+
+		// calculate middle values of cannon
+		double originX = x - (double)collisionRect.w / 2;
+		double originY = y - (double)collisionRect.h / 2;
+
+		// set a radius for the circle
+		int radius = -4;
+
+		// calculate x, y coordinates for the bullet to be fired
+		double bX = originX - radius * cos(radAngle);
+		double bY = originY + radius * sin(radAngle);
+
+		Object* cBullet;
+
+		if (attackPlayer) {
+			cBullet = new EnemyMGBullet((float)bX, (float)bY, playerObj, (float)angle, renderer, sm);
+		}
+		else {
+			cBullet = new EnemyMGBullet((float)bX, (float)bY, turret, (float)angle, renderer, sm);
+		}
+		// insert into bullets vector
+		bullets.insert(bullets.begin(), cBullet);
+
+		shot = true;
+		timer.start();
+
+		sm->playSound(ENEMY_SHOT_SOUND);
+
+	}
+	else {
+		// if bullet was already previously shot, check if cooldown period has passed
+		if (timer.getTicks() / 1000 >= 1) {
+			// if the cooldown period has passed 
+			// set shot to false and reset timer;
+			shot = false;
+			timer.stop();
+		}
+	}
+
 }
 
 void Soldier::clipSheet() {

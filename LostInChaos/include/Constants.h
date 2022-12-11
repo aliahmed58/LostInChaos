@@ -92,8 +92,8 @@ const std::string BUTTON_CORNER = BASE + "menu/button_corner.png";
 const std::string BUTTON_TOP = BASE + "menu/button_side.png";
 
 // COOLDOWN PERIODS FOR TURRETS (in seconds)
-const int CANNON_COOLDOWN = 2;
-const int MG_COOLDOWN = 4;
+const int CANNON_COOLDOWN = 10;
+const int MG_COOLDOWN = 20;
 const int MISSILELAUNCHER_COOLDOWN = 30;
 
 // MAP PATH
@@ -133,6 +133,13 @@ const string BLOOD_PNG = BASE + "blood_splat.png";
 const string EXPLOSION_PNG = BASE + "explosion.png";
 
 // AUDIO AND SFX
+const std::string explosionSound = BASE + "audio/explosion.wav";
+const std::string laserSound = BASE + "audio/laserShoot.wav";
+const std::string missileSound = BASE + "audio/missileSound.wav";
+const std::string hitSound = BASE + "audio/hit.wav";
+const std::string MENU_MUSIC = BASE + "audio/menuMusic.mp3";
+const std::string GAME_MUSIC = BASE + "audio/gameMusic.mp3";
+const std::string ENEMY_SHOOT = BASE + "audio/enemyShoot.wav";
 
 // UI RESOURCES
 
@@ -149,7 +156,8 @@ const int NUM_OF_TRAPS = 3;
 enum TAG {
 	PLAYER_TAG, SOLDIER_TAG, ZOMBIE_TAG, HITMAN_TAG, ALLY_MG_BULLET_TAG, ALLY_CANNON_BULLET_TAG,
 	ALLY_MISSILE_BULLET_TAG, ENEMY_MG_BULLET_TAG, ENEMY_CANNON_BULLET_TAG,
-	ENEMY_MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN, BLOOD_TAG, EXPLOSION_TAG
+	ENEMY_MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN, BLOOD_TAG, EXPLOSION_TAG,
+	EXPLOSION_SOUND, LASER_SHOOT, MISSILE_SOUND, HIT_SOUND, ENEMY_SHOT_SOUND
 };
 
 enum TRAPS_INDEX {

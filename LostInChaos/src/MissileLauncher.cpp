@@ -2,8 +2,8 @@
 
 MissileLauncher::MissileLauncher() {};
 
-MissileLauncher::MissileLauncher(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets)
-	: Trap(x, y, targets, renderer, MISSILE_LAUNCHER_PNG, MISSILE_LAUNCHER) {
+MissileLauncher::MissileLauncher(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets, SoundManager* sm)
+	: Trap(x, y, targets, renderer, MISSILE_LAUNCHER_PNG, MISSILE_LAUNCHER, sm) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 3;
 }
@@ -42,7 +42,7 @@ void MissileLauncher::fire(vector<Object*>& list, vector<Object*>& bullets, std:
 		double bY = originY + radius * sin(radAngle);
 
 		// create a cannon bullet object
-		Object* cBullet = new AllyMissile((float)bX, (float)bY, t, (float) angle, renderer);
+		Object* cBullet = new AllyMissile((float)bX, (float)bY, t, (float) angle, renderer, sm);
 
 		// insert into bullets vector
 		bullets.insert(bullets.begin(), cBullet);
@@ -50,10 +50,7 @@ void MissileLauncher::fire(vector<Object*>& list, vector<Object*>& bullets, std:
 		shot = true;
 		timer.start();
 
-		if (checkCollision(t->getCollisionRect(), cBullet->getCollisionRect(), 0)) {
-			t = nullptr;
-			return;
-		}
+		sm->playSound(MISSILE_SOUND);
 	}
 	else {
 		// if bullet was already previously shot, check if cooldown period has passed

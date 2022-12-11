@@ -2,7 +2,7 @@
 
 Player::Player() {};
 
-Player::Player(float x, float y, SDL_Renderer* renderer) : Object(x, y, renderer, PLAYER_PNG, PLAYER_TAG) {
+Player::Player(float x, float y, SDL_Renderer* renderer, SoundManager* sm) : Object(x, y, renderer, PLAYER_PNG,sm, PLAYER_TAG) {
 	friction = 0.9f;
 	frame = 0;
 	clipSheet();

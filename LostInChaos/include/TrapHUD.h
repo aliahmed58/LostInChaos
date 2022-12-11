@@ -14,7 +14,7 @@ public:
 	TrapHUD();
 
 	// override ctor
-	TrapHUD(SDL_Renderer* renderer, std::array<Tile*, MAP_LENGTH>* map, vector<Object*> *objects);
+	TrapHUD(SDL_Renderer* renderer, std::array<Tile*, MAP_LENGTH>* map, vector<Object*> *objects, SoundManager* sm);
 
 	// free memory allocated
 	~TrapHUD();
@@ -59,5 +59,7 @@ private:
 	// map and vector for objects
 	std::array<Tile*, MAP_LENGTH>* map;
 	vector<Object*> *objects;
+
+	SoundManager* sm;
 
 };

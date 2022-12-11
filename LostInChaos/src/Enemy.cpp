@@ -2,8 +2,9 @@
 
 Enemy::Enemy() {};
 
-Enemy::Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects, std::string filename, int type)
-	: Object(x, y, renderer, filename, type) {
+Enemy::Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects, 
+	std::string filename, int type, SoundManager* sm)
+	: Object(x, y, renderer, filename, sm, type) {
 
 	this->objects = objects;
 	// calculate A* path from current pos to player pos
@@ -40,7 +41,8 @@ void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 		Astar astar(playerObj, this);
 
 		// set attack mode to false everytimes
-		attackMode = false;
+		attackTurret = false;
+		attackPlayer = false;
 
 		if (turret == nullptr) {
 			// iterate over list of objects to see if any turret is in sight
@@ -66,14 +68,14 @@ void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 					float mObj = (float) sqrt(pow(dx, 2) + pow(dy, 2));
 
 					// if the enemy is within 200 diagonal distance of the turret
-					if (mObj <= 200) {
+					if (mObj <= 300) {
 
 						// if tthe turret is in line of sight, stop moving and set attackMode to true
 						if (LineOfSight(obj, 100, map, deltaTime)) {
 							// calculate angle between turret and enemy
 							angle = angle = calcAngle(obj->getX() - x, obj->getY() - y) - 90;
 							// set attackMode to true
-							attackMode = true;
+							attackTurret = true;
 							turret = obj;
 							// return function
 							return;
@@ -85,7 +87,7 @@ void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 		else {
 			angle = angle = calcAngle(turret->getX() - x, turret->getY() - y) - 90;
 			// set attackMode to true
-			attackMode = true;
+			attackTurret = true;
 			
 			return;
 		}
@@ -101,7 +103,7 @@ void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 		if (mag <= 200) {
 			if (LineOfSight(playerObj, 70, map, deltaTime)) {
 				angle = calcAngle(diffX, diffY) - 90;
-				attackMode = true;
+				attackPlayer = true;
 				path = astar.astar(map);
 				return;
 			}

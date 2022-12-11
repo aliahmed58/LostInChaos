@@ -9,6 +9,6 @@ public:
 	AllyMissile();
 
 	// overloaded ctor for machine gun bullet
-	AllyMissile(float x, float y, Object* target, float angle, SDL_Renderer* renderer);
+	AllyMissile(float x, float y, Object* target, float angle, SDL_Renderer* renderer, SoundManager* sm);
 
 };

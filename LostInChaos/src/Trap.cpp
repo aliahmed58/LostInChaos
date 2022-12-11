@@ -2,13 +2,16 @@
 
 Trap::Trap() {};
 
-Trap::Trap(float x, float y, vector<Object*> *objects, SDL_Renderer* renderer, std::string fileName, int type) 
-	: Object(x, y, renderer, fileName, type) {
+Trap::Trap(float x, float y, vector<Object*> *objects, SDL_Renderer* renderer, std::string fileName, int type, SoundManager* sm)
+	: Object(x, y, renderer, fileName, sm, type) {
 
 	tower = new Texture(TOWER_PNG, renderer);
 	targets = objects;
 	shot = false;
 	t = nullptr;
+
+	collisionRect.w = 48;
+	collisionRect.h = 75;
 }
 
 void Trap::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {

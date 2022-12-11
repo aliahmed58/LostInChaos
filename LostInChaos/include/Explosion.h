@@ -8,7 +8,7 @@ public:
 	Explosion();
 
 	// overloaded ctor for explosion
-	Explosion(float x, float y, float angle, int height, int width, SDL_Renderer* renderer);
+	Explosion(float x, float y, float angle, int height, int width, SDL_Renderer* renderer, SoundManager* sm);
 
 	//to alter particle with time
 	void move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime);

@@ -153,6 +153,7 @@
     <ClInclude Include="include\MenuManager.h" />
     <ClInclude Include="include\Particle.h" />
     <ClInclude Include="include\Soldier.h" />
+    <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\Zombie.h" />
     <ClInclude Include="include\helper.h" />
     <ClInclude Include="include\MachineGun.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="src\MissileLauncher.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Soldier.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\Zombie.cpp" />
     <ClCompile Include="src\helper.cpp" />
     <ClCompile Include="src\Main.cpp" />

@@ -6,7 +6,7 @@ class Player : public Object {
 	
 public:
 	Player();
-	Player(float x, float y, SDL_Renderer* renderer);
+	Player(float x, float y, SDL_Renderer* renderer, SoundManager* sm);
 
 	void move(std::array<Tile*, MAP_LENGTH> &map, double deltaTime);
 

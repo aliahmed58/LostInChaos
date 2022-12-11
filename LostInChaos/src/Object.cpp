@@ -2,8 +2,9 @@
 
 Object::Object() {};
 
-Object::Object(float x, float y, SDL_Renderer* gRenderer, std::string file_name, int type) {
+Object::Object(float x, float y, SDL_Renderer* gRenderer, std::string file_name, SoundManager* sm, int type) {
 	// set x, y coordinates and pass renderer
+	this->sm = sm;
 	this->x = x;
 	this->y = y;
 	this->renderer = gRenderer;
@@ -29,9 +30,16 @@ bool Object::isAlive() {
 	return alive;
 }
 
+int Object::getDamage() {
+	return damage;
+}
+
 void Object::kill(int damage, double deltaTime) {
-	health-= damage;
+	health -= damage;
 	if (health <= 0) alive = false;
+	else {
+		sm->playSound(HIT_SOUND);
+	}
 }
 
 void Object::render() {

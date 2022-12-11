@@ -8,4 +8,4 @@ struct GlobalVars {
 	bool inMenu;
 
 	unsigned int enemyCounter;
-};
+}; 

@@ -67,6 +67,12 @@
     <Filter Include="Header Files\Particles">
       <UniqueIdentifier>{2cff0ee8-090a-4450-96a9-e67901d73fa0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{01328586-9997-43f7-a8b4-5d9fec00abfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sound">
+      <UniqueIdentifier>{7a848a1a-647e-481d-9e59-771cc872700f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Timer.h">
@@ -177,6 +183,9 @@
     <ClInclude Include="include\EnemyMissile.h">
       <Filter>Header Files\Bullets</Filter>
     </ClInclude>
+    <ClInclude Include="include\SoundManager.h">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -286,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="src\EnemyMissile.cpp">
       <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SoundManager.cpp">
+      <Filter>Source Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

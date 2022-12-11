@@ -2,7 +2,8 @@
 
 Particle::Particle() {};
 
-Particle::Particle(float x, float y, float Angle, int Height, int Width, SDL_Renderer* renderer, std::string path, int type) : Object(x, y, renderer, path, type) {
+Particle::Particle(float x, float y, float Angle, int Height, int Width, 
+	SDL_Renderer* renderer, std::string path, int type, SoundManager* sm) : Object(x, y, renderer, path, sm,type) {
 	angle = Angle;
 	height = Height;
 	width = Width;

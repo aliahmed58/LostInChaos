@@ -9,6 +9,6 @@ public:
 	AllyBullet();
 
 	// overloaded ctor for friendly bullets
-	AllyBullet(float x, float y, Object* target, float Angle, SDL_Renderer* renderer, std::string path, int type);
+	AllyBullet(float x, float y, Object* target, float Angle, SDL_Renderer* renderer, std::string path, int type, SoundManager* sm);
 
 };

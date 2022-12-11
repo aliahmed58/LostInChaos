@@ -9,7 +9,8 @@ public:
 	Enemy();
 
 	// overriding ctor for enemy
-	Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*> *objects, std::string filename, int type);
+	Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*> *objects, 
+		std::string filename, int type, SoundManager* sm);
 
 	/*
 	 All enemy movement will comprise of 2 basic things: 
@@ -34,7 +35,13 @@ public:
 protected:
 
 	// attack mode which tells if enemy should attack or follwo A* path
-	bool attackMode;
+	bool attackTurret;
+
+	bool attackPlayer;
+
+	bool shot;
+
+	Timer timer;
 
 	bool targetFound;
 

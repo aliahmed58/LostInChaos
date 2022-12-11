@@ -9,6 +9,6 @@ public:
 	EnemyMGBullet();
 
 	// overloaded ctor for cannon gun bullet
-	EnemyMGBullet(float x, float y, Object* target, float angle, SDL_Renderer* renderer);
+	EnemyMGBullet(float x, float y, Object* target, float angle, SDL_Renderer* renderer, SoundManager* sm);
 
 };
