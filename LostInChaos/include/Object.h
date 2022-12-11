@@ -21,7 +21,7 @@ public:
 	virtual void kill(double deltaTime);
 
 	// firing ability of an object
-	virtual void fire(vector<Object*>& list, vector<Object*>& bullets, double deltaTime);
+	virtual void fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Tile*, MAP_LENGTH>& map, double deltaTime);
 
 	// setting a target
 	virtual void setTarget(Object* target);

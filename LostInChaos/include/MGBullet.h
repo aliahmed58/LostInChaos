@@ -9,6 +9,6 @@ public:
 	MGBullet();
 	
 	// overloaded ctor for machine gun bullet
-	MGBullet(float x, float y, Object* target,  SDL_Renderer* renderer);
+	MGBullet(float x, float y, Object* target, float angle,  SDL_Renderer* renderer);
 
 };

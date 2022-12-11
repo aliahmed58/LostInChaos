@@ -9,6 +9,6 @@ public:
 	CannonBullet();
 
 	// overloaded ctor for cannon gun bullet
-	CannonBullet(float x, float y, Object* target, SDL_Renderer* renderer);
+	CannonBullet(float x, float y, Object* target, float angle, SDL_Renderer* renderer);
 
 };

@@ -2,7 +2,7 @@
 
 CannonBullet::CannonBullet() {};
 
-CannonBullet::CannonBullet(float x, float y, Object* target, SDL_Renderer* renderer) : 
-	Bullet(x, y, target, renderer, CANNON_BULLET_PNG, CANNON_BULLET_TAG) {
+CannonBullet::CannonBullet(float x, float y, Object* target, float angle, SDL_Renderer* renderer) : 
+	Bullet(x, y, target, angle, renderer, CANNON_BULLET_PNG, CANNON_BULLET_TAG) {
 	damage = 3;
 }

@@ -80,7 +80,7 @@ void Object::translate(float x_val, float y_val) {
 
 // virtual function of an object firing 
 // left empty since not all objects will fire
-void Object::fire(vector<Object*>& list, vector<Object*>& bullets, double deltaTime) {
+void Object::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
 }
 

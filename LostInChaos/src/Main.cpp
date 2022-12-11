@@ -148,13 +148,13 @@ void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, do
 	// move and fire enemies, turrets
 	for (int i = 0; i < objects.size(); i++) {
 		objects.at(i)->move(map->getMap(), deltaTime);
-		objects.at(i)->fire(objects, bullets, deltaTime);
+		objects.at(i)->fire(objects, bullets, map->getMap(), deltaTime);
 	}
 
 	// move and fire bullet and particles 
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets.at(i)->move(map->getMap(), deltaTime);
-		bullets.at(i)->fire(objects, bullets, deltaTime);
+		bullets.at(i)->fire(objects, bullets, map->getMap(), deltaTime);
 	}
 
 	// clear bullets list for non alive elements

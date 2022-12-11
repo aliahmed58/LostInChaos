@@ -9,6 +9,6 @@ public:
 	Missile();
 
 	// overloaded ctor for machine gun bullet
-	Missile(float x, float y, Object* target, SDL_Renderer* renderer);
+	Missile(float x, float y, Object* target, float angle, SDL_Renderer* renderer);
 
 };

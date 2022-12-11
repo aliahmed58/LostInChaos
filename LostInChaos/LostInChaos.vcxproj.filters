@@ -182,20 +182,11 @@
     <ClCompile Include="src\MGBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
-    <ClCompile Include="src\Cannon.cpp">
-      <Filter>Source Files\Traps</Filter>
-    </ClCompile>
     <ClCompile Include="src\CannonBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
     <ClCompile Include="src\Missile.cpp">
       <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MissileLauncher.cpp">
-      <Filter>Source Files\Traps</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MachineGun.cpp">
-      <Filter>Source Files\Traps</Filter>
     </ClCompile>
     <ClCompile Include="src\Map.cpp">
       <Filter>Source Files\Map</Filter>
@@ -256,6 +247,15 @@
     </ClCompile>
     <ClCompile Include="src\MenuManager.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MissileLauncher.cpp">
+      <Filter>Source Files\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cannon.cpp">
+      <Filter>Source Files\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MachineGun.cpp">
+      <Filter>Source Files\Traps</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

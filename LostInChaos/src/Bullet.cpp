@@ -2,20 +2,23 @@
 
 Bullet::Bullet() {};
 
-Bullet::Bullet(float x, float y, Object* target, SDL_Renderer* renderer, std::string path, int type) : Object(x, y, renderer, path, type) {
+Bullet::Bullet(float x, float y, Object* target, float Angle, SDL_Renderer* renderer, std::string path, int type) : Object(x, y, renderer, path, type) {
 	damage = -1;
 	this->target = target;
 
 	int xp, yp;
 	SDL_GetMouseState(&xp, &yp);
 
-	double diffX = x - (double) xp;
-	double diffY = y - (double) yp;
+	double diffX = x - (double)xp;
+	double diffY = y - (double)yp;
 
 	double* unitVectors = calcVector(diffX, diffY);
 	unitX = unitVectors[0];
 	unitY = unitVectors[1];
 	angle = calcAngle(diffX, diffY);
+	angle = Angle + 180;
+	unitX = sin(3.14 * angle / 180);
+	unitY = -cos(3.14 * angle / 180);
 }
 
 void Bullet::move(std::array<Tile*, MAP_LENGTH> &map, double deltaTime) {

@@ -6,7 +6,7 @@ class Bullet : public Object {
 public:
 	Bullet();
 	// ctor for bullet class
-	Bullet(float x, float y, Object* target,  SDL_Renderer* renderer, std::string path, int type);
+	Bullet(float x, float y, Object* target, float angle,  SDL_Renderer* renderer, std::string path, int type);
 
 	// keeping it pure virtual since each type of bullet will have different speed
 	void move(std::array<Tile*, MAP_LENGTH> &map, double deltaTime);
