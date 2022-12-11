@@ -107,13 +107,13 @@ void TrapHUD::placeTrap(SDL_Event& e) {
 	Object* trap = nullptr;
 
 	if (selectedTrap == CAN) {
-		trap = new Cannon((float)x, (float)y, renderer, *objects);
+		trap = new Cannon((float)x, (float)y, renderer, objects);
 	}
 	else if (selectedTrap == ML) {
-		trap = new MissileLauncher((float)x, (float)y, renderer, *objects);
+		trap = new MissileLauncher((float)x, (float)y, renderer, objects);
 	}
 	else if (selectedTrap == MG) {
-		trap = new MachineGun((float)x, (float)y, renderer, *objects);
+		trap = new MachineGun((float)x, (float)y, renderer, objects);
 	}
 	if (trap != nullptr) {
 		objects->insert(objects->begin(), trap);
@@ -143,7 +143,9 @@ bool TrapHUD::isPositionLegal() {
 		if (map->at(i) != nullptr) {
 			SDL_Rect tile = map->at(i)->getRect();
 			int type = map->at(i)->getTileType();
-			if (type == SWALL_R || type == SWALL_B || type == SWALL_T || type == SWALL_L) {
+			if (type == SWALL_R || type == SWALL_B || type == SWALL_T ||
+				type == SWALL_L || type == MID_WALL || type == MID_WALL_TOP || type == MID_WALL_BOTTOM
+				|| type == MID_WALL_VERTICAL || type == MID_WALL_R || type == MID_WALL_L || type == ASTAR_BOUNDARY) {
 				if (checkCollision(selectedIcon.getBoundaryRect(), tile, 0)) {
 					return false;
 				}

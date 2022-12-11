@@ -7,7 +7,7 @@
 class Trap : public Object {
 public:
 	Trap();
-	Trap(float x, float y, vector<Object*> targets,SDL_Renderer* renderer, std::string fileName, int type);
+	Trap(float x, float y, vector<Object*> *targets,SDL_Renderer* renderer, std::string fileName, int type);
 
 	void move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime);
 
@@ -29,12 +29,12 @@ protected:
 	// boolean variable to keep track whether bullet was shot or not
 	bool shot;
 
-	bool LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime);
+	bool LineOfSight(Object* target, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime);
 
+	Object* t;
 
-	vector<Object*> targets;
+	vector<Object*> *targets;
 
-	Object* target;
 private:
 	Texture* tower;
 

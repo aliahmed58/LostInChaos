@@ -6,9 +6,6 @@ Bullet::Bullet(float x, float y, Object* target, float Angle, SDL_Renderer* rend
 	damage = -1;
 	this->target = target;
 
-	int xp, yp;
-	SDL_GetMouseState(&xp, &yp);
-
 	double diffX = target->getX() - x;
 	double diffY = target->getY() - y;
 

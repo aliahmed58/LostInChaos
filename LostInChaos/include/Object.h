@@ -18,7 +18,7 @@ public:
 	virtual void move(std::array<Tile*, MAP_LENGTH> &map, double deltaTime) = 0;
 
 	// kill an object.
-	virtual void kill(double deltaTime);
+	virtual void kill(int damage, double deltaTime);
 
 	// firing ability of an object
 	virtual void fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Tile*, MAP_LENGTH>& map, double deltaTime);

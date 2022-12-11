@@ -124,6 +124,9 @@ const string MACHINE_GUN_ICON_PNG = BASE + "/turrets/machineGunIcon.png";
 const string MG_BULLET_PNG = BASE + "/turrets/mgBullet.png";
 const string CANNON_BULLET_PNG = BASE + "/turrets/cannonBullet.png";
 const string MISSILE_BULLET_PNG = BASE + "/turrets/missileBullet.png";
+const string ENEMY_MG_BULLET_PNG = BASE + "/turrets/EmgBullet.png";
+const string ENEMY_CANNON_BULLET_PNG = BASE + "/turrets/EcannonBullet.png";
+const string ENEMY_MISSILE_BULLET_PNG = BASE + "/turrets/EmissileBullet.png";
 
 // PARTICLES 
 const string BLOOD_PNG = BASE + "blood_splat.png";
@@ -144,8 +147,9 @@ const int NUM_OF_TRAPS = 3;
 
 // ENUM FOR TYPE OF OBJECTS
 enum TAG {
-	PLAYER_TAG, HITMAN_TAG, ZOMBIE_TAG, SOLDIER_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG,
-	MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN, BLOOD_TAG, EXPLOSION_TAG
+	PLAYER_TAG, SOLDIER_TAG, ZOMBIE_TAG, HITMAN_TAG, ALLY_MG_BULLET_TAG, ALLY_CANNON_BULLET_TAG,
+	ALLY_MISSILE_BULLET_TAG, ENEMY_MG_BULLET_TAG, ENEMY_CANNON_BULLET_TAG,
+	ENEMY_MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN, BLOOD_TAG, EXPLOSION_TAG
 };
 
 enum TRAPS_INDEX {

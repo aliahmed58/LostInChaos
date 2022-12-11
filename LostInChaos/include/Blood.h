@@ -14,5 +14,4 @@ public:
 	void move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime);
 
 
-
 };

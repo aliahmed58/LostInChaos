@@ -29,8 +29,8 @@ bool Object::isAlive() {
 	return alive;
 }
 
-void Object::kill(double deltaTime) {
-	health--;
+void Object::kill(int damage, double deltaTime) {
+	health-= damage;
 	if (health <= 0) alive = false;
 }
 

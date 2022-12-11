@@ -2,24 +2,28 @@
 
 MachineGun::MachineGun() {};
 
-MachineGun::MachineGun(float x, float y, SDL_Renderer* renderer, vector<Object*> targets) : Trap(x, y, targets, renderer, MACHINE_GUN_PNG, MACHINE_GUN) {
+MachineGun::MachineGun(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets) : Trap(x, y, targets, renderer, MACHINE_GUN_PNG, MACHINE_GUN) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 1;
 }
 
 void MachineGun::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 	
-	for (int i = 0; i < targets.size(); i++) {
-		if (targets[i]->getType() == SOLDIER_TAG || targets[i]->getType() == ZOMBIE_TAG || targets[i]->getType() == HITMAN_TAG) {
-			if (LineOfSight(&targets[i]->getCollisionRect(), 100, map, deltaTime)) {
-				target = targets.at(i);
-				break;
+	bool target = false;
+
+	t = nullptr;
+	// find target
+	for (int i = 0; i < targets->size(); i++) {
+		if (targets->at(i)->getType() == SOLDIER_TAG || targets->at(i)->getType() == HITMAN_TAG ||
+			targets->at(i)->getType() == ZOMBIE_TAG) {
+			if (LineOfSight(targets->at(i), 30, map, deltaTime)) {
+				target = true;
+				t = targets->at(i);
 			}
 		}
 	}
-
 	// if no target do nothing
-	if (target == nullptr) { return; }
+	if (!target) { return; }
 
 	//fire at target
 	if (!shot) {
@@ -38,15 +42,15 @@ void MachineGun::fire(vector<Object*>& list, vector<Object*>& bullets, std::arra
 		double bY = originY + radius * sin(radAngle);
 
 		// create a cannon bullet object
-		Object* cBullet = new MGBullet((float)bX, (float)bY, target, (float)angle, renderer);
+		Object* cBullet = new AllyMGBullet((float)bX, (float)bY, t, (float) angle, renderer);
 
 		// insert into bullets vector
 		bullets.insert(bullets.begin(), cBullet);
 
 		shot = true;
 		timer.start();
-	}
 
+	}
 	else {
 		// if bullet was already previously shot, check if cooldown period has passed
 		if (timer.getTicks() / 1000 >= cooldown) {

@@ -199,6 +199,51 @@ void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* p
 
 void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime) {
 
+	/*
+	Collision detection between game objects
+	*/
+
+	//Bullets and Objects Collide
+	for (int i = 0; i < bullets.size(); i++) {
+		for (int j = 0; j < objects.size(); j++) {
+			int BTag = bullets[i]->getType();
+			int OTag = objects[j]->getType();
+			int dmg = 3;
+			if (BTag == ENEMY_MG_BULLET_TAG || BTag == ALLY_MG_BULLET_TAG) {
+				dmg = 1;
+			}
+
+			if (checkCollision(bullets[i]->getCollisionRect(), objects[j]->getCollisionRect(), 0)) {
+
+				// if enemy bullets hit
+				if (BTag == ENEMY_MISSILE_BULLET_TAG || BTag == ENEMY_CANNON_BULLET_TAG || BTag == ENEMY_MG_BULLET_TAG) {
+					// enemy bullets hit a turret
+					if (OTag == ML || OTag == CAN || OTag == MG) {
+						objects[j]->kill(dmg, deltaTime);
+						
+					}
+					// enemy bullets hit player
+					if (OTag == PLAYER_TAG) {
+						objects[j]->kill(dmg, deltaTime);
+						
+					}
+				}
+				// if ally bullets hit
+				if (BTag == ALLY_CANNON_BULLET_TAG || BTag == ALLY_MG_BULLET_TAG || BTag == ALLY_MISSILE_BULLET_TAG) {
+					// if ally bullets hit enemies
+					if (OTag == SOLDIER_TAG || OTag == ZOMBIE_TAG || OTag == HITMAN_TAG) {
+						objects[j]->kill(dmg, deltaTime);
+						
+					}
+				}
+
+			}
+
+
+		}
+	}
+
+
 	// move and fire enemies, turrets
 	for (int i = 0; i < objects.size(); i++) {
 		objects.at(i)->move(map->getMap(), deltaTime);

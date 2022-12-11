@@ -63,7 +63,7 @@ void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 					float dy = obj->getY() - y;
 
 					// calculate the diagonal distance from enemy to object
-					float mObj = sqrt(pow(dx, 2) + pow(dy, 2));
+					float mObj = (float) sqrt(pow(dx, 2) + pow(dy, 2));
 
 					// if the enemy is within 200 diagonal distance of the turret
 					if (mObj <= 200) {
@@ -95,7 +95,7 @@ void Enemy::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 		float diffY = playerObj->getY() - y;
 
 		// calculate diagonal distance from player to enemy
-		float mag = sqrt(pow(diffX, 2) + pow(diffY, 2));
+		float mag = (float) sqrt(pow(diffX, 2) + pow(diffY, 2));
 
 		// carry out same steps as above if the player is found in sight without and walls in between
 		if (mag <= 200) {
@@ -228,9 +228,6 @@ bool Enemy::LineOfSight(Object* t, int SightRadius, std::array<Tile*, MAP_LENGTH
 
 
 	for (int i = 0; i < SightRadius; i++) {
-
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(renderer, &Rect);
 
 		if (checkCollision(*targetRect, Rect, 0)) {
 			Rect.x += (int)stepX;

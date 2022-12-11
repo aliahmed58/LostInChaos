@@ -7,6 +7,10 @@ Blood::Blood(float x, float y, float angle, int height, int width, SDL_Renderer*
 }
 
 void Blood::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
-	
+	alpha *= (float) 0.999;
+	if (alpha < 10) {
+		alive = false;
+	}
 }
+
 

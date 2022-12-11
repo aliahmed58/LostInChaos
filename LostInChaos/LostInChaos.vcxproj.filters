@@ -81,17 +81,8 @@
     <ClInclude Include="include\Bullet.h">
       <Filter>Header Files\Bullets</Filter>
     </ClInclude>
-    <ClInclude Include="include\MGBullet.h">
-      <Filter>Header Files\Bullets</Filter>
-    </ClInclude>
     <ClInclude Include="include\Cannon.h">
       <Filter>Header Files\Traps</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CannonBullet.h">
-      <Filter>Header Files\Bullets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Missile.h">
-      <Filter>Header Files\Bullets</Filter>
     </ClInclude>
     <ClInclude Include="include\MissileLauncher.h">
       <Filter>Header Files\Traps</Filter>
@@ -162,6 +153,30 @@
     <ClInclude Include="include\Particle.h">
       <Filter>Header Files\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="include\AllyBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AllyCannonBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AllyMGBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AllyMissile.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EnemyBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EnemyCannonBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EnemyMGBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EnemyMissile.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -177,15 +192,6 @@
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\Bullet.cpp">
-      <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MGBullet.cpp">
-      <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CannonBullet.cpp">
-      <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Missile.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
     <ClCompile Include="src\Map.cpp">
@@ -256,6 +262,30 @@
     </ClCompile>
     <ClCompile Include="src\MachineGun.cpp">
       <Filter>Source Files\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllyBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllyCannonBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllyMGBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AllyMissile.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyCannonBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyMGBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyMissile.cpp">
+      <Filter>Source Files\Bullets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

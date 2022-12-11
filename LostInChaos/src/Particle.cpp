@@ -6,10 +6,7 @@ Particle::Particle(float x, float y, float Angle, int Height, int Width, SDL_Ren
 	angle = Angle;
 	height = Height;
 	width = Width;
-}
-
-void Particle::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
-	angle++;
+	alpha = 255;
 }
 
 void Particle::render() {
@@ -17,5 +14,6 @@ void Particle::render() {
 	SDL_Rect src = { 0, 0, sprite->getWidth(), sprite->getHeight()};
 	SDL_Rect dst = { (int)x, (int)y, height, width };
 	SDL_Point centre = { height / 2, width / 2 };
+	SDL_SetTextureAlphaMod(sprite->getTexture(), (int)alpha);
 	sprite->renderCopyEx(&src, &dst, &centre,angle);
 }

@@ -132,14 +132,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\AllyBullet.h" />
+    <ClInclude Include="include\AllyCannonBullet.h" />
+    <ClInclude Include="include\AllyMGBullet.h" />
+    <ClInclude Include="include\AllyMissile.h" />
     <ClInclude Include="include\Astar.h" />
     <ClInclude Include="include\Blood.h" />
     <ClInclude Include="include\Bullet.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Cannon.h" />
-    <ClInclude Include="include\CannonBullet.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Enemy.h" />
+    <ClInclude Include="include\EnemyBullet.h" />
+    <ClInclude Include="include\EnemyCannonBullet.h" />
+    <ClInclude Include="include\EnemyMGBullet.h" />
+    <ClInclude Include="include\EnemyMissile.h" />
     <ClInclude Include="include\Explosion.h" />
     <ClInclude Include="include\Font.h" />
     <ClInclude Include="include\GlobalVars.h" />
@@ -151,8 +158,6 @@
     <ClInclude Include="include\MachineGun.h" />
     <ClInclude Include="include\Map.h" />
     <ClInclude Include="include\Hitman.h" />
-    <ClInclude Include="include\MGBullet.h" />
-    <ClInclude Include="include\Missile.h" />
     <ClInclude Include="include\MissileLauncher.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Player.h" />
@@ -165,13 +170,20 @@
     <ClInclude Include="include\TrapIcon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AllyBullet.cpp" />
+    <ClCompile Include="src\AllyCannonBullet.cpp" />
+    <ClCompile Include="src\AllyMGBullet.cpp" />
+    <ClCompile Include="src\AllyMissile.cpp" />
     <ClCompile Include="src\Astar.cpp" />
     <ClCompile Include="src\Blood.cpp" />
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Cannon.cpp" />
-    <ClCompile Include="src\CannonBullet.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\EnemyBullet.cpp" />
+    <ClCompile Include="src\EnemyCannonBullet.cpp" />
+    <ClCompile Include="src\EnemyMGBullet.cpp" />
+    <ClCompile Include="src\EnemyMissile.cpp" />
     <ClCompile Include="src\Explosion.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\GlobalVars.cpp" />
@@ -185,8 +197,6 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\Hitman.cpp" />
-    <ClCompile Include="src\MGBullet.cpp" />
-    <ClCompile Include="src\Missile.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Renderer.cpp" />

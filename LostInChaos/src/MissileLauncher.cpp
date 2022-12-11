@@ -2,25 +2,28 @@
 
 MissileLauncher::MissileLauncher() {};
 
-MissileLauncher::MissileLauncher(float x, float y, SDL_Renderer* renderer, vector<Object*> targets)
+MissileLauncher::MissileLauncher(float x, float y, SDL_Renderer* renderer, vector<Object*>* targets)
 	: Trap(x, y, targets, renderer, MISSILE_LAUNCHER_PNG, MISSILE_LAUNCHER) {
 	// 2 seconds cooldown for cannon turret
 	cooldown = 3;
 }
 
 void MissileLauncher::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
+	bool target = false;
 
-	for (int i = 0; i < targets.size(); i++) {
-		if (targets[i]->getType() == SOLDIER_TAG || targets[i]->getType() == ZOMBIE_TAG || targets[i]->getType() == HITMAN_TAG) {
-			if (LineOfSight(&targets[i]->getCollisionRect(), 100, map, deltaTime)) {
-				target = targets.at(i);
-				break;
+	t = nullptr;
+	// find target
+	for (int i = 0; i < targets->size(); i++) {
+		if (targets->at(i)->getType() == SOLDIER_TAG || targets->at(i)->getType() == HITMAN_TAG ||
+			targets->at(i)->getType() == ZOMBIE_TAG) {
+			if (LineOfSight(targets->at(i), 30, map, deltaTime)) {
+				target = true;
+				t = targets->at(i);
 			}
 		}
 	}
-
 	// if no target do nothing
-	if (target == nullptr) { return; }
+	if (!target) { return; }
 
 	//fire at target
 	if (!shot) {
@@ -39,15 +42,19 @@ void MissileLauncher::fire(vector<Object*>& list, vector<Object*>& bullets, std:
 		double bY = originY + radius * sin(radAngle);
 
 		// create a cannon bullet object
-		Object* cBullet = new Missile((float)bX, (float)bY, target, (float)angle, renderer);
+		Object* cBullet = new AllyMissile((float)bX, (float)bY, t, (float) angle, renderer);
 
 		// insert into bullets vector
 		bullets.insert(bullets.begin(), cBullet);
 
 		shot = true;
 		timer.start();
-	}
 
+		if (checkCollision(t->getCollisionRect(), cBullet->getCollisionRect(), 0)) {
+			t = nullptr;
+			return;
+		}
+	}
 	else {
 		// if bullet was already previously shot, check if cooldown period has passed
 		if (timer.getTicks() / 1000 >= cooldown) {

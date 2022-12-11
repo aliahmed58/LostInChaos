@@ -2,20 +2,24 @@
 
 Trap::Trap() {};
 
-Trap::Trap(float x, float y, vector<Object*> objects, SDL_Renderer* renderer, std::string fileName, int type) 
+Trap::Trap(float x, float y, vector<Object*> *objects, SDL_Renderer* renderer, std::string fileName, int type) 
 	: Object(x, y, renderer, fileName, type) {
 
 	tower = new Texture(TOWER_PNG, renderer);
 	targets = objects;
 	shot = false;
+	t = nullptr;
 }
 
 void Trap::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
-	for (int i = 0; i < targets.size(); i++) {
-		if (targets[i]->getType() == SOLDIER_TAG || targets[i]->getType() == ZOMBIE_TAG || targets[i]->getType() == HITMAN_TAG) {
-			if (LineOfSight(&targets[i]->getCollisionRect(), 100, map, deltaTime)) {
-				break;
+	if (t == nullptr) {
+		for (int i = 0; i < targets->size(); i++) {
+			if (targets->at(i)->getType() == SOLDIER_TAG || targets->at(i)->getType() == HITMAN_TAG ||
+				targets->at(i)->getType() == ZOMBIE_TAG) {
+				if (LineOfSight(targets->at(i), 30, map, deltaTime)) {
+					t = targets->at(i);
+				}
 			}
 		}
 	}
@@ -35,18 +39,20 @@ void Trap::render() {
 	sprite->renderCopyEx(&src, &dst, &center, angle);
 }
 
-bool Trap::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime) {
-
+bool Trap::LineOfSight(Object* t, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime) {
 	SDL_Rect Rect = SDL_Rect();
-	Astar astar;
+
+	SDL_Rect* targetRect = &t->getCollisionRect();
 
 	Rect.w = 32;
 	Rect.h = 32;
+	Astar astar;
+
 	Rect.x = astar.calc_x((int)(x));
 	Rect.y = astar.calc_y((int)(y));
 
-	float Vy = targetRect->y + targetRect->h / 2 - y - collisionRect.h / 2;
-	float Vx = targetRect->x + targetRect->w / 2 - x - collisionRect.w / 2;
+	float Vy = t->getY() + targetRect->h / 2 - collisionRect.y - collisionRect.h / 2;
+	float Vx = t->getX() + targetRect->w / 2 - collisionRect.x - collisionRect.w / 2;
 	float M = sqrt(Vy * Vy + Vx * Vx);
 
 	float stepY = Vy / M;
@@ -56,12 +62,13 @@ bool Trap::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, 
 	bool isWall = false;
 	bool foundTarget = false;
 
+
 	for (int i = 0; i < SightRadius; i++) {
 
-		/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(renderer, &Rect);*/
 
 		if (checkCollision(*targetRect, Rect, 0)) {
+			Rect.x += (int)stepX + 16;
+			Rect.y += (int)stepY + 16;
 			angle = 180 * atan2((double)stepY, (double)stepX) / 3.14 + 90;
 			foundTarget = true;
 			return true;
@@ -80,11 +87,12 @@ bool Trap::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, 
 						|| type == MID_WALL_VERTICAL || type == MID_WALL_R || type == MID_WALL_L)) {
 
 						isWall = true;
-						return false;
 						break;
 					}
 				}
 			}
+
+			if (isWall) break;
 
 		}
 
@@ -94,7 +102,7 @@ bool Trap::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, 
 		Rect.y += (int)currStepY;
 	}
 
-	return true;
+	return false;
 }
 
 Object* Trap::getTarget(vector<Object*>& list) {
