@@ -77,12 +77,14 @@ public:
 	// function that calculates A* path
 	stack<SDL_Point*> astar(std::array<Tile*, MAP_LENGTH>& map);
 
-private:
 	// calculate starting position of a block given x value
 	int calc_x(int x);
 
 	// calculate starting position of a block given x value
 	int calc_y(int y);
+
+private:
+	
 
 	// start position
 	Object* start;

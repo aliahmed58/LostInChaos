@@ -6,4 +6,6 @@ struct GlobalVars {
 	bool gameLoop;
 
 	bool inMenu;
+
+	unsigned int enemyCounter;
 };

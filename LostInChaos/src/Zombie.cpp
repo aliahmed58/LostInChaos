@@ -1,21 +1,21 @@
-#include "../include/Soldier.h"
+#include "../include/Zombie.h"
 
-Soldier::Soldier() {};
+Zombie::Zombie() {}
 
-Soldier::Soldier(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects) :
-	Enemy(x, y, renderer, map,player, objects, SOLDIER_PNG, SOLDIER_TAG) {
+Zombie::Zombie(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects)
+	: Enemy (x, y, renderer, map, player, objects, ZOMBIE_PNG, ZOMBIE_TAG) {
 
 	clipSheet();
 	collisionRect.w = rects[0].w;
 }
 
-void Soldier::render() {
+void Zombie::render() {
 	if (attackMode) frame = 1;
 	else frame = 0;
 	sprite->renderCopyEx(&rects[frame], &collisionRect, nullptr, angle);
 }
 
-void Soldier::clipSheet() {
+void Zombie::clipSheet() {
 	// Coordinates of sprites in sprite sheet 
 // Total sprites: 2
 // i = row, j = col, (i, j)

@@ -3,11 +3,11 @@
 #include "Enemy.h"
 #include "Timer.h"
 
-class Melee : public Enemy {
+class Hitman : public Enemy {
 public:
-	Melee();
+	Hitman();
 
-	Melee(float x, float y, SDL_Renderer* renderer, Map* map, Object* player);
+	Hitman(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects);
 
 	void render();
 

@@ -59,8 +59,5 @@ protected:
 	int type;
 	SDL_Renderer* renderer;
 
-	virtual bool LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime);
-
-
 };
 

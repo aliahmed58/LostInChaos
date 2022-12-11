@@ -138,10 +138,10 @@
     <ClInclude Include="include\Soldier.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="include\Heavy.h">
+    <ClInclude Include="include\Zombie.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="include\Melee.h">
+    <ClInclude Include="include\Hitman.h">
       <Filter>Header Files\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="include\Button.h">
@@ -224,10 +224,10 @@
     <ClCompile Include="src\Soldier.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="src\Heavy.cpp">
+    <ClCompile Include="src\Zombie.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="src\Melee.cpp">
+    <ClCompile Include="src\Hitman.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="src\Blood.cpp">

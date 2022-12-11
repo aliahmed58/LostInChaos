@@ -6,7 +6,7 @@ class Soldier : public Enemy {
 public:
 	Soldier();
 
-	Soldier(float x, float y, SDL_Renderer* renderer, Map* map, Object* player);
+	Soldier(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*> *objects);
 
 	void render();
 

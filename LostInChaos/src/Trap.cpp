@@ -13,7 +13,7 @@ Trap::Trap(float x, float y, vector<Object*> objects, SDL_Renderer* renderer, st
 void Trap::move(std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
 
 	for (int i = 0; i < targets.size(); i++) {
-		if (targets[i]->getType() == MELEE_TAG || targets[i]->getType() == HEAVY_TAG || targets[i]->getType() == GUNNER_TAG) {
+		if (targets[i]->getType() == SOLDIER_TAG || targets[i]->getType() == ZOMBIE_TAG || targets[i]->getType() == HITMAN_TAG) {
 			if (LineOfSight(&targets[i]->getCollisionRect(), 100, map, deltaTime)) {
 				break;
 			}
@@ -38,11 +38,12 @@ void Trap::render() {
 bool Trap::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime) {
 
 	SDL_Rect Rect = SDL_Rect();
+	Astar astar;
 
-	Rect.w = 30;
-	Rect.h = 30;
-	Rect.x = (int)(x);
-	Rect.y = (int)(y);
+	Rect.w = 32;
+	Rect.h = 32;
+	Rect.x = astar.calc_x((int)(x));
+	Rect.y = astar.calc_y((int)(y));
 
 	float Vy = targetRect->y + targetRect->h / 2 - y - collisionRect.h / 2;
 	float Vx = targetRect->x + targetRect->w / 2 - x - collisionRect.w / 2;
@@ -57,34 +58,43 @@ bool Trap::LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, 
 
 	for (int i = 0; i < SightRadius; i++) {
 
-		for (int j = 0; j < map.size(); j++) {
-			if (checkCollision(*targetRect, Rect, 0)) {
-				angle = 180 * atan2((double)stepY, (double)stepX) / 3.14 + 90;
-				foundTarget = true;
-				return true;
-			}
-			int type = map[j]->getTileType();
-			Tile* t = map.at(j);
+		/*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderFillRect(renderer, &Rect);*/
+
+		if (checkCollision(*targetRect, Rect, 0)) {
+			angle = 180 * atan2((double)stepY, (double)stepX) / 3.14 + 90;
+			foundTarget = true;
+			return true;
+		}
+
+		int index = MAP_WIDTH * (Rect.y / 32) + (Rect.x - MAP_LEFT_OFFSET) / 32;
+		if (index <= MAP_LENGTH) {
+			int type = map[MAP_WIDTH * (Rect.y / 32) + (Rect.x - MAP_LEFT_OFFSET) / 32]->getTileType();
+			Tile* t = map.at(MAP_WIDTH * (Rect.y / 32) + (Rect.x - MAP_LEFT_OFFSET) / 32);
 			if (t != nullptr) {
-				SDL_Rect tRect = t->getRect();
-				if (checkCollision(tRect, Rect, 0) && (type == SWALL_R || type == SWALL_B || type == SWALL_T ||
-					type == SWALL_L || type == MID_WALL || type == MID_WALL_TOP || type == MID_WALL_BOTTOM
-					|| type == MID_WALL_VERTICAL || type == MID_WALL_R || type == MID_WALL_L)) {
-					isWall = true;
-					break;
+				SDL_Rect tRec = t->getRect();
+
+				if (checkCollision(tRec, Rect, 0)) {
+					if ((type == SWALL_R || type == SWALL_B || type == SWALL_T ||
+						type == SWALL_L || type == MID_WALL || type == MID_WALL_TOP || type == MID_WALL_BOTTOM
+						|| type == MID_WALL_VERTICAL || type == MID_WALL_R || type == MID_WALL_L)) {
+
+						isWall = true;
+						return false;
+						break;
+					}
 				}
 			}
+
 		}
-		if (isWall) {
-			break;
-		}
+
 		currStepX += stepX;
 		currStepY += stepY;
 		Rect.x += (int)currStepX;
 		Rect.y += (int)currStepY;
 	}
 
-	return false;
+	return true;
 }
 
 Object* Trap::getTarget(vector<Object*>& list) {

@@ -91,6 +91,10 @@ const std::string BUTTON_MIDDLE = BASE + "menu/button_middle.png";
 const std::string BUTTON_CORNER = BASE + "menu/button_corner.png";
 const std::string BUTTON_TOP = BASE + "menu/button_side.png";
 
+// COOLDOWN PERIODS FOR TURRETS (in seconds)
+const int CANNON_COOLDOWN = 2;
+const int MG_COOLDOWN = 4;
+const int MISSILELAUNCHER_COOLDOWN = 30;
 
 // MAP PATH
 const string MAP_FILE = BASE + "map.txt";
@@ -102,8 +106,8 @@ const string TILESET_PNG = BASE + "tiles/tileset.png";
 // sprites
 const string SOLDIER_PNG = BASE + "soldier.png";
 const string PLAYER_PNG = BASE + "player2.png";
-const string HEAVY_PNG = BASE + "heavy.png";
-const string MELEE_PNG = BASE + "melee.png";
+const string ZOMBIE_PNG = BASE + "zombie.png";
+const string HITMAN_PNG = BASE + "hitman.png";
 
 // TRAPS SPRITES
 const string TOWER_PNG = BASE + "/turrets/tower.png";
@@ -140,7 +144,7 @@ const int NUM_OF_TRAPS = 3;
 
 // ENUM FOR TYPE OF OBJECTS
 enum TAG {
-	PLAYER_TAG, GUNNER_TAG, HEAVY_TAG, MELEE_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG,
+	PLAYER_TAG, HITMAN_TAG, ZOMBIE_TAG, SOLDIER_TAG, MG_BULLET_TAG, CANNON_BULLET_TAG,
 	MISSILE_BULLET_TAG, MISSILE_LAUNCHER, CANNON, MACHINE_GUN, BLOOD_TAG, EXPLOSION_TAG
 };
 

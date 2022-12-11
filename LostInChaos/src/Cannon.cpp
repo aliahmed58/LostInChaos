@@ -8,18 +8,18 @@ Cannon::Cannon(float x, float y, SDL_Renderer* renderer, vector<Object*> targets
 }
 
 void Cannon::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Tile*, MAP_LENGTH>& map, double deltaTime) {
-	bool target = false;
 
-	// find target
 	for (int i = 0; i < targets.size(); i++) {
-		if (targets[i]->getType() == GUNNER_TAG || targets[i]->getType() == HEAVY_TAG || targets[i]->getType() == MELEE_TAG) {
+		if (targets[i]->getType() == SOLDIER_TAG || targets[i]->getType() == ZOMBIE_TAG || targets[i]->getType() == HITMAN_TAG) {
 			if (LineOfSight(&targets[i]->getCollisionRect(), 100, map, deltaTime)) {
-				target = true;
+				target = targets.at(i);
+				break;
 			}
 		}
 	}
+
 	// if no target do nothing
-	if (!target) { return; }
+	if (target == nullptr) { return; }
 
 	//fire at target
 	if (!shot) {
@@ -37,9 +37,8 @@ void Cannon::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Ti
 		double bX = originX - radius * cos(radAngle);
 		double bY = originY + radius * sin(radAngle);
 
-		Object* lol = new Player(500, 500, renderer);
 		// create a cannon bullet object
-		Object* cBullet = new CannonBullet((float)bX, (float)bY, lol, angle, renderer);
+		Object* cBullet = new CannonBullet((float)bX, (float)bY, target, (float)angle, renderer);
 
 		// insert into bullets vector
 		bullets.insert(bullets.begin(), cBullet);
@@ -47,6 +46,7 @@ void Cannon::fire(vector<Object*>& list, vector<Object*>& bullets, std::array<Ti
 		shot = true;
 		timer.start();
 	}
+
 	else {
 		// if bullet was already previously shot, check if cooldown period has passed
 		if (timer.getTicks() / 1000 >= cooldown) {

@@ -5,11 +5,14 @@
 #include "../include/Renderer.h"
 #include "../include/GlobalVars.h"
 #include "../include/TrapHUD.h"
-#include "../include/Heavy.h"
+#include "../include/Zombie.h"
 #include "../include/Soldier.h"
+#include "../include/Hitman.h"
 #include "../include/MenuManager.h"
 
 void updateList(vector<Object*>& objects, vector<Object*>& bullets, Map* map, double deltaTime);
+
+void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, unsigned int &timelapse, Map* map);
 
 int main(int argc, char* args[]) {
 
@@ -34,19 +37,19 @@ int main(int argc, char* args[]) {
 	// map pointer 
 	Map* map = new Map(renderer);
 	// player poitner
-	Player* p = new Player(722, 600, renderer);
+	Player* player = new Player(722, 600, renderer);
 	// trap hud 
 	TrapHUD* trapHUD = new TrapHUD(renderer, &map->getMap(), &objects);
 
-	Object* g = new Soldier(722, 92, renderer, map, p);
+	Timer enemyGenerationTimer;
 
-	objects.insert(objects.begin(), g);
-
+	enemyGenerationTimer.start();
 
 	while (!gvars.gameLoop) {
 		// keep updating deltaTime
 		system->updateDeltaTime();
 
+		
 		// handle events like mouse click and keyboard presses
 		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0) {
@@ -55,6 +58,8 @@ int main(int argc, char* args[]) {
 			}
 
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
+
+
 				if (gvars.inMenu) {
 					// PLAY BUTTON PRESSED
 					if (e.button.x > (SCREEN_WIDTH / 2) - 92 - 5 && e.button.x < (SCREEN_WIDTH / 2) - 92 - 5 + 160 &&
@@ -102,10 +107,15 @@ int main(int argc, char* args[]) {
 			map->renderMap();
 
 			/*
+			Enemeies generated at map
+			*/
+			gvars.enemyCounter += (unsigned int) system->getDeltaTime();
+			generateEnemies(renderer, objects, player, gvars.enemyCounter, map);
+			/*
 			All player rendering, movements, and attack goes below this code
 			*/
-			p->render();
-			p->move(map->getMap(), system->getDeltaTime());
+			player->render();
+			player->move(map->getMap(), system->getDeltaTime());
 
 			/* Player End */
 			/*
@@ -140,6 +150,50 @@ int main(int argc, char* args[]) {
 	delete menu;
 	delete system;
 	return 0;
+}
+
+// function to generate several enemies after time
+// generation increases as time increases hence level gets harder
+
+void generateEnemies(SDL_Renderer* renderer, vector<Object*> &objects, Object* player, unsigned int &timelapse, Map* map) {
+	
+	// after every five seconds generate random enemies
+	unsigned int delay = 5000;
+	if (timelapse > delay) {
+
+		int eType = rand() % 100;
+
+		float xPos = 1300;
+		float yPos = 198;
+
+		// genearte a soldier and zombie
+		if (eType <= 30) {
+
+			Object* soldier = new Soldier(xPos, yPos, renderer, map, player, &objects);
+			Object* zombie = new Zombie(xPos, yPos + 64, renderer, map, player, &objects);
+			objects.insert(objects.begin(), soldier);
+			objects.insert(objects.begin(), zombie);
+		}
+		// generate a zombie and hitman
+		else if (eType > 30 && eType <= 70) {
+
+			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects);
+			Object* zombie = new Zombie(xPos , yPos + 64, renderer, map, player, &objects);
+			objects.insert(objects.begin(), hitman);
+			objects.insert(objects.begin(), zombie);
+		}
+
+		// genearte a hitman only
+		else {
+
+
+			Object* hitman = new Hitman(xPos, yPos, renderer, map, player, &objects);
+			objects.insert(objects.begin(), hitman);
+		}
+
+		timelapse = 0;
+
+	}
 }
 
 

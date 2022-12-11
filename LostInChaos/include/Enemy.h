@@ -9,7 +9,7 @@ public:
 	Enemy();
 
 	// overriding ctor for enemy
-	Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, std::string filename, int type);
+	Enemy(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*> *objects, std::string filename, int type);
 
 	/*
 	 All enemy movement will comprise of 2 basic things: 
@@ -28,7 +28,8 @@ public:
 
 	// using the virtual fire function, each enemy will define its different type of attacks
 
-	bool LineOfSight(SDL_Rect* targetRect, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime);
+	// returns true if line of sight is clear
+	bool LineOfSight(Object* target, int SightRadius, std::array<Tile*, MAP_LENGTH>& map, double deltatime);
 
 protected:
 
@@ -38,15 +39,22 @@ protected:
 	bool targetFound;
 
 	// target for A* search
-	Object* target;
+	Object* playerObj;
+
+	// target for turret
+	Object* turret;
+
+	// to check for turrets
+	vector<Object*>* objects;
 	
 	// frame int for enemies that have sprite sheets
 	int frame;
 
-private:
-	
+	// map 
 	Map* map;
 
+private:
+	
 	stack<SDL_Point*> path;
 
 	void handleInput();

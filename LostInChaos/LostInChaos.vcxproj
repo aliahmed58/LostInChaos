@@ -146,11 +146,11 @@
     <ClInclude Include="include\MenuManager.h" />
     <ClInclude Include="include\Particle.h" />
     <ClInclude Include="include\Soldier.h" />
-    <ClInclude Include="include\Heavy.h" />
+    <ClInclude Include="include\Zombie.h" />
     <ClInclude Include="include\helper.h" />
     <ClInclude Include="include\MachineGun.h" />
     <ClInclude Include="include\Map.h" />
-    <ClInclude Include="include\Melee.h" />
+    <ClInclude Include="include\Hitman.h" />
     <ClInclude Include="include\MGBullet.h" />
     <ClInclude Include="include\Missile.h" />
     <ClInclude Include="include\MissileLauncher.h" />
@@ -180,11 +180,11 @@
     <ClCompile Include="src\MissileLauncher.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Soldier.cpp" />
-    <ClCompile Include="src\Heavy.cpp" />
+    <ClCompile Include="src\Zombie.cpp" />
     <ClCompile Include="src\helper.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Map.cpp" />
-    <ClCompile Include="src\Melee.cpp" />
+    <ClCompile Include="src\Hitman.cpp" />
     <ClCompile Include="src\MGBullet.cpp" />
     <ClCompile Include="src\Missile.cpp" />
     <ClCompile Include="src\Object.cpp" />

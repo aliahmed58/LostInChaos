@@ -1,21 +1,21 @@
-#include "../include/Soldier.h"
+#include "../include/Hitman.h"
 
-Soldier::Soldier() {};
+Hitman::Hitman() {};
 
-Soldier::Soldier(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects) :
-	Enemy(x, y, renderer, map,player, objects, SOLDIER_PNG, SOLDIER_TAG) {
-
+Hitman::Hitman(float x, float y, SDL_Renderer* renderer, Map* map, Object* player, vector<Object*>* objects)
+	: Enemy(x, y, renderer, map, player, objects, HITMAN_PNG, HITMAN_TAG) {
 	clipSheet();
 	collisionRect.w = rects[0].w;
 }
 
-void Soldier::render() {
+
+void Hitman::render() {
 	if (attackMode) frame = 1;
 	else frame = 0;
 	sprite->renderCopyEx(&rects[frame], &collisionRect, nullptr, angle);
 }
 
-void Soldier::clipSheet() {
+void Hitman::clipSheet() {
 	// Coordinates of sprites in sprite sheet 
 // Total sprites: 2
 // i = row, j = col, (i, j)

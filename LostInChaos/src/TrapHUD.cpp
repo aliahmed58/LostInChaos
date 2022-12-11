@@ -15,9 +15,9 @@ TrapHUD::TrapHUD(SDL_Renderer* renderer, std::array<Tile*, MAP_LENGTH>* map, vec
 	this->objects = objects;
 	this->renderer = renderer;
 
-	icons[ML] = new TrapIcon(32, startPosY, MISSILE_LAUNCHER_ICON_PNG, ML, renderer, 30);
-	icons[CAN] = new TrapIcon(32, startPosY + 112, CANNON_ICON_PNG, CAN, renderer, 5);
-	icons[MG] = new TrapIcon(32, startPosY + 224, MACHINE_GUN_ICON_PNG, MG, renderer, 5);
+	icons[ML] = new TrapIcon(32, startPosY, MISSILE_LAUNCHER_ICON_PNG, ML, renderer, MISSILELAUNCHER_COOLDOWN);
+	icons[CAN] = new TrapIcon(32, startPosY + 112, CANNON_ICON_PNG, CAN, renderer, CANNON_COOLDOWN);
+	icons[MG] = new TrapIcon(32, startPosY + 224, MACHINE_GUN_ICON_PNG, MG, renderer, MG_COOLDOWN);
 
 	selectedTrap = -1;
 }

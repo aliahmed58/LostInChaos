@@ -9,8 +9,8 @@ Bullet::Bullet(float x, float y, Object* target, float Angle, SDL_Renderer* rend
 	int xp, yp;
 	SDL_GetMouseState(&xp, &yp);
 
-	double diffX = x - (double)xp;
-	double diffY = y - (double)yp;
+	double diffX = target->getX() - x;
+	double diffY = target->getY() - y;
 
 	double* unitVectors = calcVector(diffX, diffY);
 	unitX = unitVectors[0];

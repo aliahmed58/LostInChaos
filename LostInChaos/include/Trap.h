@@ -2,6 +2,7 @@
 #include "Object.h"
 #include "helper.h"
 #include "Timer.h"
+#include "Astar.h"
 
 class Trap : public Object {
 public:
@@ -32,6 +33,8 @@ protected:
 
 
 	vector<Object*> targets;
+
+	Object* target;
 private:
 	Texture* tower;
 
